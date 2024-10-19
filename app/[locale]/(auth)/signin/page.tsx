@@ -17,7 +17,6 @@ export default function SignInPage() {
   const [email, setEmail] = useState<string | null>('');
   // 인증 코드 상태 관리
   const [verificationCode, setVerificationCode] = useState<string>('');
-  
   const router = useRouter();
   const { locale, toggleLocale } = useLocaleStore();
   const handleGoogleLogin = () => {
@@ -42,20 +41,13 @@ export default function SignInPage() {
       bankName: formData.get('bankName'),                  
       accountNumber: formData.get('accountNumber')       
     };
-    
     console.log(data);  // 전송할 데이터를 출력
-
-    try {
+    try{
       // 백엔드 API 호출
-      const response = await apiClient.post('http://localhost:8080/api/v1/user/join', data);
-      alert(response.data);
-      console.log(response.data);
-
-      // 성공 시 로그인 페이지로 이동
+      const response = await apiClient.post('/api/v1/user/join', data);
       router.push(`/${locale}/login`);
-    } catch (error) {
-      console.error('회원가입 실패:', (error as any).response.data);
-      alert((error as any).response.data);
+    }catch(error){
+      
     }
   };
 
@@ -65,31 +57,25 @@ export default function SignInPage() {
       return;
     }
     try {
-      const response = await apiClient.post('http://localhost:8080/api/v1/email/send', {
+      const response = await apiClient.post('/api/v1/email/send', {
         email: email,
       });
-      alert('인증 코드가 이메일로 전송되었습니다.');
     } catch (error) {
-      console.error('이메일 전송 실패:', error);
-      alert('이메일 전송에 실패하였습니다.');
+
     }
   };
 
   const handleCodeVerification = async () => {
     try {
-      const response = await apiClient.post('http://localhost:8080/api/v1/email/verify', {
+      const response = await apiClient.post('/api/v1/email/verify', {
         email: email,
         verifyCode: verificationCode,
       });
       if (response.data === '인증이 완료되었습니다.') {
-        alert('이메일 인증이 완료되었습니다.');
         setIsEmailVerified(true);
-      } else {
-        alert('인증에 실패하였습니다.');
-      }
+      } 
     } catch (error) {
-      console.error('인증 실패:', error);
-      alert('인증에 실패하였습니다.');
+  
     }
   };
   
