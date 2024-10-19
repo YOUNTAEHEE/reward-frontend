@@ -1,6 +1,7 @@
 // pages/login.js
 "use client";
 import useUserStore from "@store/useUserStore";
+import useLocaleStore from "@store/useLocaleStore";
 import Head from "next/head";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
@@ -17,6 +18,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<String | null>(null);
   const router = useRouter();
+  const { locale, toggleLocale } = useLocaleStore();
+  console.log(locale);
   function getCookie(name: string): string | null {
     const value = `; ${document.cookie}`;
     console.log(value);
@@ -66,21 +69,22 @@ export default function LoginPage() {
   return (
     <main className="w-full border-x border-slate-200">
       <section className="flex flex-col items-center w-full h-screen md:flex-row">
-        <div className="relative hidden h-full bg-blue-600 lg:block lg:w-1/2 xl:w-2/3">
-          <Image
+        <div className="relative hidden h-full bg-green-600 lg:block lg:w-1/2 xl:w-2/3">
+          {/* <Image
             src="/images/login-bg.webp"
             alt="Background Image"
             className="object-cover w-full h-full"
             layout="fill" // 또는 width와 height를 지정하기.
-          />
+          /> */}
         </div>
 
         <div className="flex items-center justify-center w-full h-full px-6 bg-white md:w-1/2 xl:w-1/3 lg:px-16 xl:px-12">
           <div className="w-full max-w-md">
             <Link href={"/"}>
-              <Button variant="light" size="lg" className="p-2 font-bold">
+              {/* <Button variant="light" size="lg" className="p-2 font-bold">
                 캐시 백{" "}
-              </Button>
+              </Button> */}
+               <p className="mt-4 mb-2 font-bold">리워드</p>
             </Link>
             <form className="mt-6" onSubmit={handleSubmit}>
               <div>
@@ -112,17 +116,17 @@ export default function LoginPage() {
               <div className="mt-2 text-right">
                 <Link
                   href="#"
-                  className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700"
+                  className="text-sm font-semibold text-gray-700 hover:text-green-700 focus:text-green-700"
                 >
-                  Forgot Password?
+                  비밀번호 찾기
                 </Link>
               </div>
 
               <Button
                 type="submit"
-                className="block w-full px-4 py-3 mt-6 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-400 focus:bg-blue-400"
+                className="block w-full px-4 mt-6 font-semibold text-white bg-green-500 rounded-lg hover:bg-green-400 focus:bg-green-400"
               >
-                Log In
+                로그인
               </Button>
             </form>
 
@@ -130,7 +134,7 @@ export default function LoginPage() {
 
             <Button
               type="button"
-              className="block w-full px-4 py-3 font-semibold text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:bg-gray-100"
+              className="block w-full px-4 font-semibold text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:bg-gray-100"
               onClick={handleGoogleLogin}
             >
               <div className="flex items-center justify-center">
@@ -170,17 +174,17 @@ export default function LoginPage() {
             </Button>
 
             <p className="mt-8">
-              Need an account?
+              회원가입이 안되어 있나요?
               <Link
-                href="/signin"
-                className="font-semibold text-blue-500 hover:text-blue-700"
+                href={`/${locale}/signin`}
+                className="ml-2 font-semibold text-green-500 hover:text-green-700"
               >
-                Create an account
+                가입하기
               </Link>
             </p>
 
             <p className="mt-12 text-sm text-gray-500">
-              &copy; 2024 리워드 - All Rights Reserved.
+              &copy; 2024 Reward - All Rights Reserved.
             </p>
           </div>
         </div>

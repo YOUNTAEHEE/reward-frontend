@@ -6,6 +6,7 @@ export default createMiddleware({
  
   // Used when no locale matches
   defaultLocale: 'ko'
+  
 });
  
 export const config = {
