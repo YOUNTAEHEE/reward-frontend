@@ -38,20 +38,12 @@ apiClient.interceptors.request.use(
 // 응답 인터셉터 추가
 apiClient.interceptors.response.use(
   (response) => {
-    // 응답 전체를 로그로 출력
-    // if (response.status === 200 && response.data?.message) {
-    //   alert(response.data.message);
-    // }
-    // 성공 메시지를 문자열 또는 객체의 message에서 추출
-    const successMessage = typeof response.data === 'string' ? response.data : response.data?.message;
-
+    const successMessage = typeof response.data === 'string' ? response.data : response.data?.successMessage;
     // successMessage가 있을 때만 alert 표시
     if (successMessage) {
       alert(successMessage);
     }
-
     return response;
-   // 응답 데이터를 그대로 반환
   },
   (error) => {
     // 응답 에러를 전역적으로 처리

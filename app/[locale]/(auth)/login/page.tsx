@@ -31,33 +31,40 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-
+    try{
     // 로그인 요청
-    const response = await apiClient.post("/auth/login", { email, password });
+    const response = await apiClient.post("/auth/login", { 
+      userId : email, userPassword : password 
+    });
 
     // 쿠키에서 액세스 토큰을 가져옴
     const accessToken = response.data.token;
     console.log("Login successful:", accessToken);
     console.log("Login successful:", response.data);
-
-    const { id } = response.data;
+    
+    // const { id } = response.data;
 
     
     // // 사용자 정보 요청
  
     // Zustand 스토어에 userInfo를 저장
     const setUserInfo = useUserStore.getState().setUserInfo;
-    // const userInfoWithToken = {
-    //   ...userInfoResponse.data, // 기존 사용자 정보
-    //   token: accessToken, // 토큰 추가
-    // };
+    const userInfoWithToken = {
+      ...response.data, // 기존 사용자 정보
+      token: accessToken, // 토큰 추가
+    };
     setUserInfo(response.data);
 
-
-
-
     // 홈 페이지로 리다이렉트
-    router.push("/");
+    router.push(`/${locale}/home`);
+  
+    }catch (error: any){
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("로그인 실패");
+      }
+    }
   };
 
   const handleGoogleLogin = () => {
