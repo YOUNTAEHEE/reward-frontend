@@ -56,7 +56,7 @@ export default function LoginPage() {
     setUserInfo(response.data);
 
     // 홈 페이지로 리다이렉트
-    router.push(`/${locale}/home`);
+    router.push(`/${locale}/sales/inspect-listing`);
   
     }catch (error: any){
       if (error.response && error.response.data && error.response.data.message) {
@@ -83,9 +83,6 @@ export default function LoginPage() {
             className="object-cover w-full h-full"
             layout="fill" // 또는 width와 height를 지정하기.
           /> */}
-          <button onClick={()=>router.push(`/${locale}/sales/login`)}>
-            영업자 로그인
-          </button>
         </div>
 
         <div className="flex items-center justify-center w-full h-full px-6 bg-white md:w-1/2 xl:w-1/3 lg:px-16 xl:px-12">
@@ -186,7 +183,7 @@ export default function LoginPage() {
             <p className="mt-8">
               회원가입이 안되어 있나요?
               <Link
-                href={`/${locale}/signin`}
+                href={`/${locale}/sales/signin`}
                 className="ml-2 font-semibold text-green-500 hover:text-green-700"
               >
                 가입하기
