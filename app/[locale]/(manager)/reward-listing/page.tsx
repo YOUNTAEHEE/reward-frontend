@@ -29,18 +29,26 @@ export default function InspectorScreen() {
   return (
     <>
       {/* 헤더 */}
-      <header className="bg-white p-4 sticky top-0 z-20 shadow-sm flex ">
+      {/* <header className="sticky top-0 z-20 flex p-4 bg-white shadow-sm ">
         <Button isIconOnly variant="ghost" className="mr-2">
-          <ArrowLeft className="h-6 w-6" />
+          <ArrowLeft className="w-6 h-6" />
         </Button>
         <h1 className="text-lg font-bold">리워드 관리 : 박기완</h1>
+      </header> */}
+      <div className="container p-4 mx-auto ">
+      <header className="flex items-center mb-6">
+        <Button isIconOnly variant="light" className="mr-2">
+          <ArrowLeft className="w-6 h-6" />
+        </Button>
+        <h1 className="text-2xl font-bold">리워드 관리 : 박기완</h1>
       </header>
-    <div className="p-4 max-w-7xl mx-auto">
+      </div>
+    <div className="p-4 mx-auto max-w-7xl">
         
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2">
         <Card>
           <CardBody className="p-4">
-            <h2 className="font-bold mb-2">사용자: KKY</h2>
+            <h2 className="mb-2 font-bold">사용자: KKY</h2>
             <p>슬롯 전체 개수: 50</p>
             <p>전체 개수중 가용 개수: 5</p>
           </CardBody>
