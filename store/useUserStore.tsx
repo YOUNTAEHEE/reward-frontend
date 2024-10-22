@@ -6,15 +6,16 @@ import { persist, devtools } from 'zustand/middleware';
 export interface UserInfo {
   // userNo?: number;
   userId?: string;
-  userName?: string;
+  // userName?: string;
   userNickname?: string;
-  userPhone?: number;
-  accountHolder?: string;
-  bankName?: string;
-  accountNumber?: string;
-  userRole?: string;
+  // userPhone?: number;
+  // accountHolder?: string;
+  // bankName?: string;
+  // accountNumber?: string;
+  // userRole?: string;
+  // token?: string;
+  userPoint?: number;
   token?: string;
-  userPoint?: string ;
 }
 
 // UserStore 인터페이스 정의

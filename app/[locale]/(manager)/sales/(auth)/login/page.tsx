@@ -39,6 +39,7 @@ export default function LoginPage() {
 
     // 쿠키에서 액세스 토큰을 가져옴
     const accessToken = response.data.token;
+    const userInfo = response.data.userInfo;
     console.log("Login successful:", accessToken);
     console.log("Login successful:", response.data);
     
@@ -50,10 +51,10 @@ export default function LoginPage() {
     // Zustand 스토어에 userInfo를 저장
     const setUserInfo = useUserStore.getState().setUserInfo;
     const userInfoWithToken = {
-      ...response.data, // 기존 사용자 정보
+      ...userInfo, // 기존 사용자 정보
       token: accessToken, // 토큰 추가
     };
-    setUserInfo(response.data);
+    setUserInfo(userInfoWithToken);
 
     // 홈 페이지로 리다이렉트
     router.push(`/${locale}/sales/inspect-listing`);

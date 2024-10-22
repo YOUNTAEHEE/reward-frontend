@@ -4,23 +4,89 @@ import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Card, CardBody } from "@nextui-org/card";
 import { useState } from "react";
+import apiClient from "@handler/fetch/client";
+import { useRouter } from 'next/navigation';
 
-type RewardStatus = "ACTIVE" | "INACTIVE";
+type RewardStatus = "생성" | "비활성화";
+type RewardInflowCount = 100 | 200;
+type RewardPriceComparison = "유" | "무";
+// formData의 타입 정의
+interface FormData {
+  advertiserId: string;
+  rewardStatus: RewardStatus;
+  productURL: string;
+  keyword: string;
+  salesChannel: string;
+  rewardProductPrice: number | string; // 초기에는 빈 값일 수 있음
+  rewardPoint: number | string; // 초기에는 빈 값일 수 있음
+  productId: string;
+  optionId: string;
+  productName: string;
+  priceComparison: string;
+  rewardStartDate: string;
+  rewardEndDate: string;
+  inflowCount: number | string; // 초기에는 빈 값일 수 있음
+  rewardMemo: string;
+}
 
 export default function Component() {
-  const [advertiserId, setAdvertiserId] = useState<string>(""); 
-  const [rewardStatus, setRewardStatus] = useState<RewardStatus>('INACTIVE'); 
-  const [productURL, setProductURL] = useState<string>(""); 
-  const [keyword, setKeyword] = useState<string>(""); 
-  const [salesChannel, setSalesChannel] = useState<string>(""); 
-  const [rewardProductPrice, setRewardProductPrice] = useState<number>(0); 
-  const [rewardPoint, setRewardPoint] = useState<number>(0); 
-  const [productCode, setProductCode] = useState<string>("");
-  const [productName, setProductName] = useState<string>(""); 
-  const [rewardStartDate, setRewardStartDate] = useState<string>(""); 
-  const [rewardEndDate, setRewardEndDate] = useState<string>(""); 
-  const [inflowCount, setInflowCount] = useState<number>(0); 
-  const [rewardMemo, setRewardMemo] = useState<string>(""); 
+  // 모든 폼 필드를 하나의 객체로 관리
+  const [formData, setFormData] = useState<FormData>({
+    advertiserId: "",
+    rewardStatus: "생성" as RewardStatus,
+    productURL: "",
+    keyword: "",
+    salesChannel: "",
+    rewardProductPrice: "",
+    rewardPoint: "",
+    productId: "",
+    optionId:"",
+    productName: "",
+    priceComparison : "무" as RewardPriceComparison,
+    rewardStartDate: "",
+    rewardEndDate: "",
+    inflowCount: 100 as RewardInflowCount,
+    rewardMemo: "",
+  });
+  const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
+
+  const convertRewardStatus = (status: RewardStatus): "ACTIVE" | "INACTIVE" => {
+    return status === "생성" ? "ACTIVE" : "INACTIVE";
+  };
+  
+  const validateDates = () => {
+    const startDate = new Date(formData.rewardStartDate);
+    const endDate = new Date(formData.rewardEndDate);
+    const diffInTime = endDate.getTime() - startDate.getTime();
+    const diffInDays = diffInTime / (1000 * 3600 * 24);
+
+    if (![10, 20, 30].includes(diffInDays)) {
+      setError('시작 날짜와 종료 날짜 사이의 기간은 10일, 20일 또는 30일이어야 합니다.');
+      return false;
+    }
+    setError(null);
+    return true;
+  };
+
+  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (validateDates()) {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }else {
+    console.log('유효하지 않은 날짜 범위');
+  }
+    try {
+      const response = await  apiClient.post("/my/reward/write", formData);
+    } catch (error) {
+     
+    }
+  };
+
 
   return (
     <div className="container p-4 mx-auto ">
@@ -46,8 +112,8 @@ export default function Component() {
                     id="productURL"
                     placeholder="https://www.example.com/product/123"
                     className="flex-grow"
-                    value={productURL}
-                    onChange={(e) => setProductURL(e.target.value)}
+                    value={formData.productURL}
+                    onChange={(e) =>setFormData({...formData, productURL:e.target.value})}
                   />
                   <Button className="ml-2 text-white bg-green-500">조회</Button>
                 </div>
@@ -61,8 +127,8 @@ export default function Component() {
                   id="advertiserId"
                   placeholder="사용자 ID"
                   className="mt-1"
-                  value={advertiserId}
-                  onChange={(e) => setAdvertiserId(e.target.value)}
+                  value={formData.advertiserId}
+                  onChange={(e) => setFormData({ ...formData, advertiserId: e.target.value })}
                 />
               </div>
 
@@ -74,8 +140,9 @@ export default function Component() {
                   id="rewardStatus"
                   placeholder="생성 여부 입력"
                   className="mt-1"
-                  value={rewardStatus}
-                  onChange={(e) => setRewardStatus(e.target.value as RewardStatus)}
+                  value={formData.rewardStatus}
+                  // onChange={(e) => setRewardStatus(e.target.value as RewardStatus)}
+                  readOnly
                 />
               </div>
 
@@ -87,8 +154,8 @@ export default function Component() {
                   id="keyword"
                   placeholder="키워드 입력"
                   className="mt-1"
-                  value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
+                  value={formData.keyword}
+                  onChange={(e) => setFormData({...formData, keyword: e.target.value })}
                 />
               </div>
 
@@ -100,8 +167,8 @@ export default function Component() {
                   id="salesChannel"
                   placeholder="스토어 이름 입력"
                   className="mt-1"
-                  value={salesChannel}
-                  onChange={(e) => setSalesChannel(e.target.value)}
+                  value={formData.salesChannel}
+                  onChange={(e) => setFormData({...formData, salesChannel: e.target.value})}
                 />
               </div>
 
@@ -113,9 +180,13 @@ export default function Component() {
                   id="rewardProductPrice"
                   placeholder="상품 가격 입력"
                   className="mt-1"
-                  type="number"
-                  value={rewardProductPrice}
-                  onChange={(e) => setRewardProductPrice(Number(e.target.value))}
+                  value={formData.rewardProductPrice}
+                  onChange={(e) => setFormData({...formData, rewardProductPrice:Number(e.target.value) })}
+                  onKeyDown={(e) => {
+                    if (!/[0-9]/.test(e.key)) {
+                      e.preventDefault(); // 숫자가 아닐 경우 입력 방지
+                    }
+                  }}
                 />
               </div>
 
@@ -127,22 +198,39 @@ export default function Component() {
                   id="rewardPoint"
                   placeholder="리워드 포인트 입력"
                   className="mt-1"
-                  type="number"
-                  value={rewardPoint}
-                  onChange={(e) => setRewardPoint(Number(e.target.value))}
+                  value={formData.rewardPoint}
+                  onChange={(e) => setFormData({...formData, rewardPoint:Number(e.target.value) })}
+                  onKeyDown={(e) => {
+                    if (!/[0-9]/.test(e.key)) {
+                      e.preventDefault(); // 숫자가 아닐 경우 입력 방지
+                    }
+                  }}
                 />
               </div>
 
               <div>
-                <label htmlFor="productCode" className="text-sm font-medium">
-                  상품 코드<span className="text-red-500">*</span>
+                <label htmlFor="productId" className="text-sm font-medium">
+                  상품ID<span className="text-red-500">*</span>
                 </label>
                 <Input
-                  id="productCode"
-                  placeholder="상품 코드 입력"
+                  id="productId"
+                  placeholder="상품ID 입력"
                   className="mt-1"
-                  value={productCode}
-                  onChange={(e) => setProductCode(e.target.value)}
+                  value={formData.productId}
+                  onChange={(e) => setFormData({...formData, productId: e.target.value})}
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="optionId" className="text-sm font-medium">
+                  옵션ID<span className="text-red-500">*</span>
+                </label>
+                <Input
+                  id="optionId"
+                  placeholder="옵션ID 입력"
+                  className="mt-1"
+                  value={formData.optionId}
+                  onChange={(e) => setFormData({...formData, optionId: e.target.value})}
                 />
               </div>
 
@@ -154,9 +242,24 @@ export default function Component() {
                   id="productName"
                   placeholder="상품명 입력"
                   className="mt-1"
-                  value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
+                  value={formData.productName}
+                  onChange={(e) => setFormData({...formData, productName:e.target.value})}
                 />
+              </div>
+              
+              <div>
+                <label htmlFor="priceComparison" className="text-sm font-medium">
+                  가격비교 여부<span className="text-red-500">*</span>
+                </label>
+                <select
+                  id="priceComparison"
+                  className="w-full p-2 mt-1 border rounded-lg"
+                  value={formData.priceComparison}
+                  onChange={(e) => setFormData({...formData, priceComparison: e.target.value as RewardPriceComparison })}
+                >
+                   <option value="유">유</option>
+                   <option value="무">무</option>
+                </select>
               </div>
 
               <div>
@@ -167,8 +270,8 @@ export default function Component() {
                   id="rewardStartDate"
                   type="date"
                   className="mt-1"
-                  value={rewardStartDate}
-                  onChange={(e) => setRewardStartDate(e.target.value)}
+                  value={formData.rewardStartDate}
+                  onChange={(e) => setFormData({...formData, rewardStartDate: e.target.value})}
                 />
               </div>
 
@@ -180,23 +283,25 @@ export default function Component() {
                   id="rewardEndDate"
                   type="date"
                   className="mt-1"
-                  value={rewardEndDate}
-                  onChange={(e) => setRewardEndDate(e.target.value)}
+                  value={formData.rewardEndDate}
+                  onChange={(e) =>setFormData({...formData, rewardEndDate:e.target.value})}
                 />
               </div>
 
+             
               <div>
                 <label htmlFor="inflowCount" className="text-sm font-medium">
                   유입수<span className="text-red-500">*</span>
                 </label>
-                <Input
+                <select
                   id="inflowCount"
-                  placeholder="유입수 입력"
-                  className="mt-1"
-                  type="number"
-                  value={inflowCount}
-                  onChange={(e) => setInflowCount(Number(e.target.value))}
-                />
+                  className="w-full p-2 mt-1 border rounded-lg"
+                  value={formData.inflowCount}
+                  onChange={(e) => setFormData({...formData, inflowCount:Number(e.target.value) as RewardInflowCount })}
+                >
+                   <option value={100}>100</option>
+                   <option value={200}>200</option>
+                </select>
               </div>
 
               <div className="col-span-1 md:col-span-2">
@@ -208,8 +313,8 @@ export default function Component() {
                   placeholder="메모를 입력해주세요"
                   className="w-full p-2 mt-1 border rounded"
                   rows={4}
-                  value={rewardMemo}
-                  onChange={(e) => setRewardMemo(e.target.value)}
+                  value={formData.rewardMemo}
+                  onChange={(e) => setFormData({...formData, rewardMemo:e.target.value})}
                 />
               </div>
             </div>
@@ -230,7 +335,7 @@ export default function Component() {
         <div className="w-full">
           <div className="flex justify-end mt-6 space-x-2 ">
           <Button variant="bordered">취소</Button>
-          <Button className="text-white bg-green-500">저장</Button>
+          <Button className="text-white bg-green-500" onClick={handleSubmit}>저장</Button>
           </div>
         </div>
       </div>      

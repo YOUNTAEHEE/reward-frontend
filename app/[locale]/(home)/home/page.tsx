@@ -14,7 +14,7 @@ export default function HomeScreen() {
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* 헤더 */}
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-white shadow-sm">
-        <h1 className="text-xl font-bold">캐시백</h1>
+        <h1 className="text-xl font-bold">리워드</h1>
         <Bell className="w-6 h-6 text-gray-600" />
       </header>
 
