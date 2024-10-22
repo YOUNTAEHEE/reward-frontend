@@ -1,11 +1,14 @@
-<div align=center><h1>Full-stack 1인 프로젝트 Reward 소개</h1></div>
+<div align=center><h1>👋 Full-stack 1인 프로젝트 Reward 소개</h1></div>
 <div align=center><p>스마트 스토어 판매자가 자신의 스토어를 알리기 위해 상품과 관련된 미션을 올리면 사람들은 미션을 수행하고서 포인트를 획득합니다. <br> 스마트 스토어 판매자는 자신의 상품을 알려서 좋고, 미션 수행하는 사람들은 포인트 얻어서 좋은 서로 윈윈하는 사이트입니다. </p></div>
 <br>
-<div align=center><h2> 🔻Back-end Repository </h2></div>
-⚙️ **[BackEnd Repository](https://github.com/YOUNTAEHEE/reward-backend)**
-<br>
+<div align=center><h2>🔻 Back-end Repository</h2></div>
+<div align="center">
+  <a href="https://github.com/YOUNTAEHEE/reward-backend">⚙️ <strong>BackEnd Repository</strong></a>
+</div>
 
-<div align=center><h1>📚 STACKS</h1></div>
+<br>
+<br>
+<div align=center><h1>💻 STACKS</h1></div>
 
 <div align=center><h2>Front-end</h2></div>
 <div align=center> 
