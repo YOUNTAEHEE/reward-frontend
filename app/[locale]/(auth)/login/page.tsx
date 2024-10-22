@@ -12,8 +12,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { NextApiRequest, NextApiResponse } from "next";
 import apiClient from "@handler/fetch/client";
+import { UserCog, Users, Megaphone } from "lucide-react";
+
 export default function LoginPage() {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<String | null>(null);
@@ -31,35 +32,38 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    try{
-    // 로그인 요청
-    const response = await apiClient.post("/auth/login", { 
-      userId : email, userPassword : password 
-    });
+    try {
+      // 로그인 요청
+      const response = await apiClient.post("/auth/login", {
+        userId: email,
+        userPassword: password,
+      });
 
-    // 쿠키에서 액세스 토큰을 가져옴
-    const accessToken = response.data.token;
-    console.log("Login successful:", accessToken);
-    console.log("Login successful:", response.data);
-    
-    // const { id } = response.data;
+      // 쿠키에서 액세스 토큰을 가져옴
+      const accessToken = response.data.token;
+      console.log("Login successful:", accessToken);
+      console.log("Login successful:", response.data);
 
-    
-    // // 사용자 정보 요청
- 
-    // Zustand 스토어에 userInfo를 저장
-    const setUserInfo = useUserStore.getState().setUserInfo;
-    const userInfoWithToken = {
-      ...response.data, // 기존 사용자 정보
-      token: accessToken, // 토큰 추가
-    };
-    setUserInfo(response.data);
+      // const { id } = response.data;
 
-    // 홈 페이지로 리다이렉트
-    router.push(`/${locale}/home`);
-  
-    }catch (error: any){
-      if (error.response && error.response.data && error.response.data.message) {
+      // // 사용자 정보 요청
+
+      // Zustand 스토어에 userInfo를 저장
+      const setUserInfo = useUserStore.getState().setUserInfo;
+      const userInfoWithToken = {
+        ...response.data, // 기존 사용자 정보
+        token: accessToken, // 토큰 추가
+      };
+      setUserInfo(response.data);
+
+      // 홈 페이지로 리다이렉트
+      router.push(`/${locale}/home`);
+    } catch (error: any) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         setError(error.response.data.message);
       } else {
         setError("로그인 실패");
@@ -83,9 +87,31 @@ export default function LoginPage() {
             className="object-cover w-full h-full"
             layout="fill" // 또는 width와 height를 지정하기.
           /> */}
-          <button onClick={()=>router.push(`/${locale}/sales/login`)}>
-            영업자 로그인
-          </button>
+          {/* 여기서부터 다른 페이지 */}
+          <div className="flex flex-col justify-center w-1/3 p-8 space-y-4 ">
+            {/* <Link
+              href="/admin"
+              className="flex items-center p-2 space-x-2 text-green-300 transition-colors rounded-lg hover:bg-green-500"
+            >
+              <UserCog size={24} />
+              <span>관리자 로그인</span>
+            </Link> */}
+            <Link
+              href={`/${locale}/sales/login`}
+              className="flex items-center p-2 space-x-2 text-green-300 transition-colors rounded-lg hover:bg-green-500"
+            >
+              <Users size={24} />
+              <span>영업자 로그인</span>
+            </Link>
+            {/* <Link
+              href="/advertiser"
+              className="flex items-center p-2 space-x-2 text-green-300 transition-colors rounded-lg hover:bg-green-500"
+            >
+              <Megaphone size={24} />
+              <span>광고주 로그인</span>
+            </Link> */}
+          </div>
+          {/* 여기까지 다른 페이지 */}
         </div>
 
         <div className="flex items-center justify-center w-full h-full px-6 bg-white md:w-1/2 xl:w-1/3 lg:px-16 xl:px-12">
@@ -94,7 +120,7 @@ export default function LoginPage() {
               {/* <Button variant="light" size="lg" className="p-2 font-bold">
                 캐시 백{" "}
               </Button> */}
-               <p className="mt-4 mb-2 font-bold">리워드</p>
+              <p className="mt-4 mb-2 font-bold">리워드</p>
             </Link>
             <form className="mt-6" onSubmit={handleSubmit}>
               <div>

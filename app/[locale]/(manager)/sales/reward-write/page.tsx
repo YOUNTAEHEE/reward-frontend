@@ -6,6 +6,8 @@ import { Card, CardBody } from "@nextui-org/card";
 import { useState } from "react";
 import apiClient from "@handler/fetch/client";
 import { useRouter } from "next/navigation";
+import useUserStore from "@store/useUserStore";
+import useLocaleStore from "@store/useLocaleStore";
 
 type RewardStatus = "생성" | "비활성화";
 type RewardInflowCount = 100 | 200;
@@ -30,6 +32,13 @@ interface FormData {
 }
 
 export default function Component() {
+  const router = useRouter();
+  const { locale, toggleLocale } = useLocaleStore();
+  const rewardSetPoint = 15;
+
+  const { userInfo } = useUserStore();
+  const salesId = userInfo?.userId || "";  // 사용자의 ID를 가져옴
+  
   // 모든 폼 필드를 하나의 객체로 관리
   const [formData, setFormData] = useState<FormData>({
     advertiserId: "",
@@ -38,7 +47,7 @@ export default function Component() {
     keyword: "",
     salesChannel: "",
     rewardProductPrice: "",
-    rewardPoint: "",
+    rewardPoint: rewardSetPoint,
     productId: "",
     optionId: "",
     productName: "",
@@ -50,8 +59,6 @@ export default function Component() {
   });
   const [error, setError] = useState<string | null>(null);
 
-  const router = useRouter();
-
   const convertRewardStatus = (status: RewardStatus): "ACTIVE" | "INACTIVE" => {
     return status === "생성" ? "ACTIVE" : "INACTIVE";
   };
@@ -59,12 +66,23 @@ export default function Component() {
   const validateDates = () => {
     const startDate = new Date(formData.rewardStartDate);
     const endDate = new Date(formData.rewardEndDate);
-    const diffInTime = endDate.getTime() - startDate.getTime();
-    const diffInDays = diffInTime / (1000 * 3600 * 24);
+
+    const start = Date.UTC(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate()
+    );
+    const end = Date.UTC(
+      endDate.getFullYear(),
+      endDate.getMonth(),
+      endDate.getDate()
+    );
+
+    const diffInDays = (end - start) / (1000 * 60 * 60 * 24) + 1; // 날짜 차이에 1을 추가하여 시작 및 종료 날짜를 포함
 
     if (![10, 20, 30].includes(diffInDays)) {
       setError(
-        "시작 날짜와 종료 날짜 사이의 기간은 10일 또는 30일이어야 합니다."
+        "리워드 기간은 시작일과 종료일을 포함하여 10일 또는 30일 중 하나여야 합니다."
       );
       return false;
     }
@@ -74,20 +92,33 @@ export default function Component() {
 
   const handleSubmit = async () => {
     let requestData = null;
-    if (validateDates()) {
-      requestData = {
-        ...formData,
-        rewardProductPrice: Number(formData.rewardProductPrice),
-        rewardPoint: Number(formData.rewardPoint),
-        inflowCount: Number(formData.inflowCount),
-      };
-    } else {
-      alert("시작 날짜와 종료 날짜 사이의 기간은 10일 또는 30일이어야 합니다.");
+
+    if (!validateDates()) {
+      alert(
+        "리워드 기간은 시작일과 종료일을 포함하여 10일 또는 30일 중 하나여야 합니다."
+      );
+      return;
     }
-    if (requestData) {
-      try {
-        const response = await apiClient.post("/my/reward/write", requestData);
-      } catch (error) {}
+    requestData = {
+      ...formData,
+      rewardProductPrice: Number(formData.rewardProductPrice),
+      rewardPoint: Number(formData.rewardPoint),
+      inflowCount: Number(formData.inflowCount),
+      rewardStatus: convertRewardStatus(formData.rewardStatus),
+      salesId: salesId
+    };
+
+    if (!formData) {
+      alert("필수 입력 항목이 누락되었습니다");
+      return;
+    }
+
+    try {
+      // console.log("Request data:", requestData);
+      const response = await apiClient.post("/my/reward/write", requestData);
+      router.push(`/${locale}/sales/inspect-listing`);
+    } catch (error) {
+      // console.error("API 요청 중 오류 발생:", error);
     }
   };
 
@@ -234,24 +265,27 @@ export default function Component() {
                       htmlFor="rewardPoint"
                       className="text-sm font-medium"
                     >
-                      리워드 포인트<span className="text-red-500">*</span>
+                      리워드 포인트
+                      {/* <span className="text-red-500">*</span> */}
                     </label>
                     <Input
                       id="rewardPoint"
                       placeholder="리워드 포인트 입력"
                       className="mt-1"
+                      // value={String(formData.rewardPoint)}
                       value={String(formData.rewardPoint)}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          rewardPoint: e.target.value,
-                        })
-                      }
+                      // onChange={(e) =>
+                      //   setFormData({
+                      //     ...formData,
+                      //     rewardPoint: e.target.value,
+                      //   })
+                      // }
                       onKeyDown={(e) => {
                         if (!/[0-9]/.test(e.key)) {
                           e.preventDefault(); // 숫자가 아닐 경우 입력 방지
                         }
                       }}
+                      readOnly
                     />
                   </div>
 
