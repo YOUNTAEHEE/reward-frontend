@@ -154,7 +154,7 @@ export default function Component() {
       const response = await apiClient.post("/my/reward/write", requestData);
       router.push(`/${locale}/sales/inspect-listing`);
     } catch (error) {
-     // 에러 응답에서 메시지 추출  
+      
     }
   };
 
