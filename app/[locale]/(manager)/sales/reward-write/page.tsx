@@ -62,11 +62,20 @@ export default function Component() {
   const convertRewardStatus = (status: RewardStatus): "ACTIVE" | "INACTIVE" => {
     return status === "생성" ? "ACTIVE" : "INACTIVE";
   };
-
   const validateDates = () => {
     const startDate = new Date(formData.rewardStartDate);
     const endDate = new Date(formData.rewardEndDate);
-
+    const today = new Date();
+    
+    today.setHours(0, 0, 0, 0);
+    startDate.setHours(0, 0, 0, 0);
+  
+    // 시작 날짜가 오늘 이후여야 함
+    if (startDate < today) {
+      setError("시작 날짜는 오늘 이전일 수 없습니다.");
+      return false;
+    }
+    
     const start = Date.UTC(
       startDate.getFullYear(),
       startDate.getMonth(),
@@ -80,7 +89,7 @@ export default function Component() {
 
     const diffInDays = (end - start) / (1000 * 60 * 60 * 24) + 1; // 날짜 차이에 1을 추가하여 시작 및 종료 날짜를 포함
 
-    if (![10, 20, 30].includes(diffInDays)) {
+    if (![10, 30].includes(diffInDays)) {
       setError(
         "리워드 기간은 시작일과 종료일을 포함하여 10일 또는 30일 중 하나여야 합니다."
       );
@@ -92,11 +101,9 @@ export default function Component() {
 
   const handleSubmit = async () => {
     let requestData = null;
-
+    
     if (!validateDates()) {
-      alert(
-        "리워드 기간은 시작일과 종료일을 포함하여 10일 또는 30일 중 하나여야 합니다."
-      );
+      alert(error);
       return;
     }
     requestData = {
@@ -108,17 +115,46 @@ export default function Component() {
       salesId: salesId
     };
 
-    if (!formData) {
-      alert("필수 입력 항목이 누락되었습니다");
+    // if (!formData) {
+    //   alert("필수 입력 항목이 누락되었습니다");
+    //   return;
+    // }
+
+    // 필수 입력 항목 체크
+    const requiredFields = [
+      { field: formData.productURL, fieldName: "상품 URL" },
+      { field: formData.advertiserId, fieldName: "광고주 ID" },
+      { field: formData.rewardStatus, fieldName: "리워드 생성 여부" },
+      { field: formData.keyword, fieldName: "키워드" },
+      { field: formData.salesChannel, fieldName: "스토어 이름" },
+      { field: formData.rewardProductPrice, fieldName: "상품 가격" },
+      { field: formData.productId, fieldName: "상품 ID" },
+      { field: formData.productName, fieldName: "상품명" },
+      { field: formData.priceComparison, fieldName: "가격 비교 여부" },
+      { field: formData.rewardStartDate, fieldName: "리워드 시작 날짜" },
+      { field: formData.rewardEndDate, fieldName: "리워드 종료 날짜" },
+      { field: formData.inflowCount, fieldName: "유입수" },
+    ];
+    // 누락된 필드 목록을 저장할 배열
+    const missingFields = [];
+    // 입력되지 않은 필수 항목 확인
+    for (const { field, fieldName } of requiredFields) {
+      if (!field) {
+        missingFields.push(fieldName);
+      }
+    }
+    // 누락된 필드가 있을 경우 에러 메시지 출력
+    if (missingFields.length > 0) {
+      alert(`다음 필수 항목을 입력해주세요: ${missingFields.join(", ")}`);
       return;
     }
-
+    
     try {
       // console.log("Request data:", requestData);
       const response = await apiClient.post("/my/reward/write", requestData);
       router.push(`/${locale}/sales/inspect-listing`);
     } catch (error) {
-      // console.error("API 요청 중 오류 발생:", error);
+     // 에러 응답에서 메시지 추출  
     }
   };
 
