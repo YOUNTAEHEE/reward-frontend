@@ -3,7 +3,7 @@
 <br>
 
 <div align=center><h1>👋 Full-stack 1인 프로젝트 Reward 소개</h1></div>
-<div align=center><p>스마트 스토어 판매자가 자신의 스토어를 알리기 위해 상품과 관련된 미션을 올리면 사람들은 미션을 수행하고서 포인트를 획득합니다. <br> 스마트 스토어 판매자는 자신의 상품을 알려서 좋고, 미션 수행하는 사람들은 포인트 얻어서 좋은 서로 윈윈하는 사이트입니다. </p></div>
+<div align=center><p>온라인 쇼핑몰 판매자가 자신의 쇼핑몰을 알리기 위해 상품과 관련된 미션을 올리면 사람들은 미션을 수행하고서 포인트를 획득합니다. <br> 온라인 쇼핑몰 판매자는 자신의 상품을 알려서 좋고, 미션 수행하는 사람들은 포인트 얻어서 좋은 서로 윈윈하는 사이트입니다. </p></div>
 <br>
 <div align=center><h2>🔻 Back-end Repository</h2></div>
 <div align="center">
@@ -20,7 +20,6 @@
 <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"/>
 <img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white">
 <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=for-the-badge&logo=Tailwind CSS&logoColor=white"/>
-<img src="https://img.shields.io/badge/nextui-000000?style=for-the-badge&logo=nextui&logoColor=white">
 </div>
 
 <div align=center><h2>Back-end</h2></div>

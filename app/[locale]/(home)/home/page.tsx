@@ -102,7 +102,7 @@ export default function HomeScreen() {
 
         <div className=" md:hidden">
     <div className="mx-5 mb-4">
-      <Button className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600">
+      <Button className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600" onClick={()=>router.push(`/${locale}/missions`)}>
         {t("미션하기")}
       </Button>
     </div>
@@ -110,7 +110,7 @@ export default function HomeScreen() {
       </main>
       <div className="hidden md:block">
     <div className="mx-5 mb-4 ">
-      <Button className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600">
+      <Button className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600"  onClick={()=>router.push(`/${locale}/missions`)}>
         {t("미션하기")}
       </Button>
     </div>

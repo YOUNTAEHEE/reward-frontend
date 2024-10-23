@@ -2,45 +2,74 @@
 import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "@nextui-org/card";
 import { useTranslations } from 'next-intl';
-import React from "react";
+import React, { use } from "react";
+import { useState, useEffect } from "react";
+import { ScrollShadow } from "@nextui-org/react";
+import { motion } from "framer-motion"
+import apiClient from "@handler/fetch/client";
 
-const missions = [
-  { id: 1, nameKey: "미션_정답_찾기1", points: 15 },
-  { id: 2, nameKey: "미션_정답_찾기2", points: 15 },
-  { id: 3, nameKey: "미션_정답_찾기3", points: 15 },
-  { id: 4, nameKey: "미션_정답_찾기4", points: 15 },
-  { id: 5, nameKey: "미션_정답_찾기5", points: 15 },
-  { id: 6, nameKey: "미션_정답_찾기6", points: 15 },
-  { id: 7, nameKey: "미션_정답_찾기7", points: 15 },
-  { id: 8, nameKey: "미션_정답_찾기8", points: 15 },
-  { id: 9, nameKey: "미션_정답_찾기9", points: 15 },
-  { id: 10, nameKey: "미션_정답_찾기10", points: 15 },
-  { id: 11, nameKey: "미션_정답_찾기11", points: 15 },
-  { id: 12, nameKey: "미션_정답_찾기12", points: 15 },
-];
-
+interface Mission {
+  rewardNo: number;
+  rewardPoint: number;
+}
 export default function Component() {
   const t = useTranslations();  // 국제화를 위한 훅 사용
-
+  const [hoveredMission, setHoveredMission] = useState<number | null>(null)
+  const [missions, setMissions] = useState<Mission[]>([]);
+ 
+  const fetchMissions = async()=> {
+    try{
+      const response = await apiClient.get('/reward/mission/list');
+      const missionsData = Array.isArray(response.data) ? response.data : [];
+      setMissions(missionsData); 
+    }catch (error){
+      setMissions([]); 
+    }
+  }
+  
+  useEffect(()=>{
+    fetchMissions();
+  },[])
+ 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* 헤더 */}
-      <header className="bg-white p-4 sticky top-0 z-10 shadow-sm flex justify-center">
-        <h2 className="text-2xl font-bold">{t('네이버미션하기')}</h2>
+      {/* <header className="sticky top-0 z-10 flex justify-center p-4 bg-white shadow-sm">
+        <h2 className="text-2xl font-bold">{t('네이버 미션하기')}</h2>
+      </header> */}
+      <header className="sticky top-0 z-10 flex justify-center p-4 bg-white shadow-sm">
+        <h2 className="text-2xl font-bold">{t('미션하기')}</h2>
       </header>
-
       {/* 메인 컨텐츠 */}
-      <main className="flex-grow p-4 space-y-4 pb-16">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+        <main className="flex-1 p-8 ">
+        <div className="grid grid-cols-2 gap-6 " >
           {missions.map((mission) => (
-            <div key={mission.id} className="flex flex-col justify-between px-4 py-2">
-              <div className="flex gap-3 space-y-2">
-                <Button className="flex-grow bg-green-500 hover:bg-green-600 text-white">
-                  {t(mission.nameKey)}
-                </Button>
-                <span className=" text-green-500 font-bold whitespace-nowrap">{mission.points}{t('포인트')}</span>
+            <motion.div
+              key={mission.rewardNo}
+              className="relative overflow-hidden transition-all bg-white shadow-md group rounded-xl hover:shadow-lg"
+              whileHover={{ scale: 1.03 }}
+              onHoverStart={() => setHoveredMission(mission.rewardNo)}
+              onHoverEnd={() => setHoveredMission(null)}
+            >
+              <div className="absolute inset-0 transition-opacity opacity-75 bg-gradient-to-r from-blue-400 to-green-700 group-hover:opacity-100" />
+              <div className="relative flex flex-col justify-between h-full p-6">
+                <h2 className="text-xl font-semibold text-white">{`미션 ${mission.rewardNo}`}</h2>
+                <div className="flex items-center justify-between mt-4">
+                  <span className="px-3 py-1 text-sm font-medium text-green-600 bg-white rounded-full">
+                    {mission.rewardPoint} 포인트
+                  </span>
+                  <motion.button
+                    className="px-4 py-2 text-sm font-medium text-green-600 transition-opacity bg-white rounded-full opacity-0 group-hover:opacity-100"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={hoveredMission === mission.rewardNo ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    시작하기
+                  </motion.button>
+                </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </main>
