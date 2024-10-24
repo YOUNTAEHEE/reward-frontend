@@ -239,8 +239,7 @@ export default function Component({ params } : ComponentProps) {
   const [mission, setMission] = useState<Mission | null>(null);
   const [answer, setAnswer] = useState<string>('');
   const [message, setMessage] = useState<string>(''); // 메시지 상태 추가
-  const userInfo = useUserStore((state) => state.userInfo);
-
+  const userId = useUserStore((state) => state.userInfo?.userId);
   const fetchMission = async()=> {
     try{
       const response = await apiClient.get(`/reward/mission/${rewardNo}`);
@@ -253,10 +252,12 @@ export default function Component({ params } : ComponentProps) {
 
   const missionAnswer = async(e: React.FormEvent<HTMLFormElement>)=> {
     e.preventDefault();
+    
+    
     try{
       const response = await apiClient.post(`/reward/mission/success/${rewardNo}`,
         {
-          userId: userInfo?.userId,
+          userId: userId,
           missionAnswer : answer
         }
       );

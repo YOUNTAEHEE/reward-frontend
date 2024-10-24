@@ -37,25 +37,16 @@ export default function LoginPage() {
         userId: email,
         userPassword: password,
       });
-
-      // 쿠키에서 액세스 토큰을 가져옴
-      const accessToken = response.data.token;
-      const userInfo = response.data.userInfo;
-      console.log("Login successful:", accessToken);
-      console.log("Login successful:", response.data);
-
-      // const { id } = response.data;
-
-      // // 사용자 정보 요청
-
+     
+      const { loginUserInfo, token } = response.data;
       // Zustand 스토어에 userInfo를 저장
       const setUserInfo = useUserStore.getState().setUserInfo;
       const userInfoWithToken = {
-        ...userInfo, // 기존 사용자 정보
-        token: accessToken, // 토큰 추가
+        ...loginUserInfo, // 기존 사용자 정보
+        token: token, // 토큰 추가
       };
       setUserInfo(userInfoWithToken);
-
+      
       // 홈 페이지로 리다이렉트
       router.push(`/${locale}/sales/inspect-listing`);
     } catch (error: any) {

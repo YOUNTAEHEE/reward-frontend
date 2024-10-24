@@ -22,8 +22,9 @@ export default function MyPage() {
     setError(null);
     try{
       const response = await apiClient.post("/auth/logout");
-      localStorage.removeItem("token");
-      localStorage.removeItem("successMessage");
+      // localStorage.removeItem("token");
+      // localStorage.removeItem("successMessage");
+      // clearUserInfo(); 
       clearUserInfo(); 
       router.push(`/${locale}/login`);
     }catch(error: any){

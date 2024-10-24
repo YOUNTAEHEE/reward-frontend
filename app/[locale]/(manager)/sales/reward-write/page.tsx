@@ -18,7 +18,7 @@ interface FormData {
   rewardStatus: RewardStatus;
   productURL: string;
   keyword: string;
-  salesChannel: string;
+  advertiserChannel: string;
   rewardProductPrice: number | string; // 초기에는 빈 값일 수 있음
   rewardPoint: number | string; // 초기에는 빈 값일 수 있음
   productId: string;
@@ -45,7 +45,7 @@ export default function Component() {
     rewardStatus: "생성" as RewardStatus,
     productURL: "",
     keyword: "",
-    salesChannel: "",
+    advertiserChannel: "",
     rewardProductPrice: "",
     rewardPoint: rewardSetPoint,
     productId: "",
@@ -95,7 +95,7 @@ export default function Component() {
       );
       return false;
     }
-    setError(null);
+    // setError(null);
     return true;
   };
 
@@ -126,7 +126,7 @@ export default function Component() {
       { field: formData.advertiserId, fieldName: "광고주 ID" },
       { field: formData.rewardStatus, fieldName: "리워드 생성 여부" },
       { field: formData.keyword, fieldName: "키워드" },
-      { field: formData.salesChannel, fieldName: "스토어 이름" },
+      { field: formData.advertiserChannel, fieldName: "스토어 이름" },
       { field: formData.rewardProductPrice, fieldName: "상품 가격" },
       { field: formData.productId, fieldName: "상품 ID" },
       { field: formData.productName, fieldName: "상품명" },
@@ -251,20 +251,20 @@ export default function Component() {
 
                   <div>
                     <label
-                      htmlFor="salesChannel"
+                      htmlFor="advertiserChannel"
                       className="text-sm font-medium"
                     >
                       스토어 이름<span className="text-red-500">*</span>
                     </label>
                     <Input
-                      id="salesChannel"
+                      id="advertiserChannel"
                       placeholder="스토어 이름 입력"
                       className="mt-1"
-                      value={formData.salesChannel}
+                      value={formData.advertiserChannel}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          salesChannel: e.target.value,
+                          advertiserChannel: e.target.value,
                         })
                       }
                     />
