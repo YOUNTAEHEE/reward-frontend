@@ -60,7 +60,15 @@ apiClient.interceptors.response.use(
       
       if (!message) {  // 서버에서 메시지가 없을 경우에만 기본 메시지 출력
         if (status === 401) {
+          alert('세션이 만료되었습니다. 다시 로그인해주세요.');
           alert('Unauthorized access, please log in again.');
+          // Zustand 스토어에서 유저 정보 초기화 및 토큰 삭제
+          useUserStore.getState().clearUserInfo();
+          localStorage.removeItem('token');  // 저장된 Access Token 삭제
+  
+          // 로그인 페이지로 리다이렉트
+          window.location.href = '/'; 
+    
         } else if (status === 403) {
           alert('You do not have permission to perform this action.');
         } else if (status === 500) {

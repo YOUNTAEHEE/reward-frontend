@@ -2,11 +2,12 @@
 import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "@nextui-org/card";
 import { useTranslations } from 'next-intl';
-import React, { use } from "react";
-import { useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 import { ScrollShadow } from "@nextui-org/react";
 import { motion } from "framer-motion"
 import apiClient from "@handler/fetch/client";
+import useLocaleStore from "@store/useLocaleStore";
+import { useRouter } from "next/navigation";
 
 interface Mission {
   rewardNo: number;
@@ -16,7 +17,9 @@ export default function Component() {
   const t = useTranslations();  // 국제화를 위한 훅 사용
   const [hoveredMission, setHoveredMission] = useState<number | null>(null)
   const [missions, setMissions] = useState<Mission[]>([]);
- 
+  const { locale, toggleLocale } = useLocaleStore();
+  const router = useRouter();
+  
   const fetchMissions = async()=> {
     try{
       const response = await apiClient.get('/reward/mission/list');
@@ -52,18 +55,19 @@ export default function Component() {
               onHoverEnd={() => setHoveredMission(null)}
             >
               <div className="absolute inset-0 transition-opacity opacity-75 bg-gradient-to-r from-blue-400 to-green-700 group-hover:opacity-100" />
-              <div className="relative flex flex-col justify-between h-full p-6">
+              <div className="relative flex flex-col justify-between h-full p-2 lg:p-6">
                 <h2 className="text-xl font-semibold text-white">{`미션 ${mission.rewardNo}`}</h2>
-                <div className="flex items-center justify-between mt-4">
-                  <span className="px-3 py-1 text-sm font-medium text-green-600 bg-white rounded-full">
+                <div className="flex items-center justify-between gap-2 mt-4">
+                  <span className="px-2 py-1 text-sm font-medium text-green-600 bg-white rounded-full lg:px-3">
                     {mission.rewardPoint} 포인트
                   </span>
                   <motion.button
-                    className="px-4 py-2 text-sm font-medium text-green-600 transition-opacity bg-white rounded-full opacity-0 group-hover:opacity-100"
+                    className="px-2 py-2 text-sm font-medium text-green-600 transition-opacity bg-white rounded-full opacity-0 group-hover:opacity-100 md:px-4"
                     initial={{ y: 20, opacity: 0 }}
                     animate={hoveredMission === mission.rewardNo ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={() => router.push(`/${locale}/mission/${mission.rewardNo}`)}  
                   >
                     시작하기
                   </motion.button>

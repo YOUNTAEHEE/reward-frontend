@@ -1,15 +1,25 @@
 "use client";
-import { Bell, Gift, Users, CheckSquare, Calendar, Star, Wallet, FileSpreadsheet, User } from 'lucide-react';
+import {
+  Bell,
+  Gift,
+  Users,
+  CheckSquare,
+  Calendar,
+  Star,
+  Wallet,
+  FileSpreadsheet,
+  User,
+} from "lucide-react";
 import { Button } from "@nextui-org/button";
 import useLocaleStore from "@store/useLocaleStore";
-import { Card, CardHeader, CardBody,  } from "@nextui-org/card";
-import { useTranslations } from 'next-intl';
+import { Card, CardHeader, CardBody } from "@nextui-org/card";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 export default function HomeScreen() {
-    const t = useTranslations(); // 국제화 훅 사용
-    const router = useRouter();
-    const { locale, toggleLocale } = useLocaleStore();
+  const t = useTranslations(); // 국제화 훅 사용
+  const router = useRouter();
+  const { locale, toggleLocale } = useLocaleStore();
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* 헤더 */}
@@ -55,14 +65,17 @@ export default function HomeScreen() {
 
         {/* 그리드 카드 */}
         <div className="grid grid-cols-2 gap-4">
-          <Card className="bg-white shadow-sm"
-          isPressable
-          onPress={()=>router.push(`/${locale}/mission`)}>
+          <Card
+            className="bg-white shadow-sm"
+            isPressable
+            onPress={() => router.push(`/${locale}/mission`)}
+          >
             <CardBody className="flex flex-col items-center justify-center p-4">
               <Calendar className="w-8 h-8 mb-2 text-green-500" />
               <p className="text-sm font-medium text-center">오늘의 미션</p>
             </CardBody>
-          </Card><Card className="bg-white shadow-sm">
+          </Card>
+          <Card className="bg-white shadow-sm">
             <CardBody className="flex flex-col items-center justify-center p-4">
               <Wallet className="w-8 h-8 mb-2 text-green-500" />
               <p className="text-sm font-medium text-center">적립</p>
@@ -101,20 +114,26 @@ export default function HomeScreen() {
         </div>
 
         <div className=" md:hidden">
-    <div className="mx-5 mb-4">
-      <Button className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600" onClick={()=>router.push(`/${locale}/missions`)}>
-        {t("미션하기")}
-      </Button>
-    </div>
-  </div>
+          <div className="mb-4 ">
+            <Button
+              className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600"
+              onClick={() => router.push(`/${locale}/missions`)}
+            >
+              {t("미션하기")}
+            </Button>
+          </div>
+        </div>
       </main>
       <div className="hidden md:block">
-    <div className="mx-5 mb-4 ">
-      <Button className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600"  onClick={()=>router.push(`/${locale}/missions`)}>
-        {t("미션하기")}
-      </Button>
-    </div>
-  </div>
+        <div className="mx-5 mb-4">
+          <Button
+            className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600"
+            onClick={() => router.push(`/${locale}/missions`)}
+          >
+            {t("미션하기")}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

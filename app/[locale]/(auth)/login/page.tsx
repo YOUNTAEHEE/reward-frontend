@@ -21,6 +21,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { locale, toggleLocale } = useLocaleStore();
   console.log(locale);
+  
   function getCookie(name: string): string | null {
     const value = `; ${document.cookie}`;
     console.log(value);
