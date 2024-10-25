@@ -54,7 +54,7 @@
 </div>
 <br><br><br>
 <div align="center"><h1>🔎 System Architecture</h1></div>
-<img src="../reward/public/img/architecture.jpg">
+<img src="images/architecture.jpg">
 <br><br>
 <div align="center"><h1>📌 Site Feature</h1></div>
 <div align="left"><p>▶사용자/ 리워드 등록자 페이지 구분
