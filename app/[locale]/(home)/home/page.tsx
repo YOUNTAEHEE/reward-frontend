@@ -1,4 +1,5 @@
-"use client";
+'use client'
+import React, { useState, useEffect } from "react";
 import {
   Bell,
   Gift,
@@ -15,11 +16,33 @@ import useLocaleStore from "@store/useLocaleStore";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import apiClient from "@handler/fetch/client";
+import useUserStore from "@store/useUserStore";
 
 export default function HomeScreen() {
   const t = useTranslations(); // 국제화 훅 사용
   const router = useRouter();
   const { locale, toggleLocale } = useLocaleStore();
+  const [point, setPoint] = useState<number | string>();
+  const [userNickname, setUserNickname] = useState<string>();
+  const userId = useUserStore((state) => state.userInfo?.userId);
+  
+  const fetchUserInfo = async()=> {
+    console.log("Sending userId:", userId);
+    try{
+      const response = await apiClient.post(`/my/point`,{userId});
+      setPoint(response.data.userPoint);
+      setUserNickname(response.data.userNickname);
+    }catch (error){
+      setPoint('포인트를 불러올 수 없음');
+      setUserNickname('닉네임을 불러올 수 없음');
+    }
+  }
+  
+  useEffect(()=>{
+    fetchUserInfo();
+  },[])
+  
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* 헤더 */}
@@ -35,8 +58,8 @@ export default function HomeScreen() {
           <CardBody>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">sks</p>
-                <p className="text-2xl font-bold">132p</p>
+                <p className="text-sm text-gray-500">{userNickname}</p>
+                <p className="text-2xl font-bold">{point}p</p>
               </div>
               <Button className="text-white bg-green-500 hover:bg-green-600">
                 적립금내역
@@ -68,7 +91,7 @@ export default function HomeScreen() {
           <Card
             className="bg-white shadow-sm"
             isPressable
-            onPress={() => router.push(`/${locale}/mission`)}
+            onPress={() => router.push(`/${locale}/today-mission`)}
           >
             <CardBody className="flex flex-col items-center justify-center p-4">
               <Calendar className="w-8 h-8 mb-2 text-green-500" />
@@ -81,7 +104,9 @@ export default function HomeScreen() {
               <p className="text-sm font-medium text-center">적립</p>
             </CardBody>
           </Card>
-          <Card className="bg-white shadow-sm">
+          <Card className="bg-white shadow-sm"  
+            isPressable
+            onPress={() => router.push(`/${locale}/cash-history`)}>
             <CardBody className="flex flex-col items-center justify-center p-4">
               <FileSpreadsheet className="w-8 h-8 mb-2 text-green-500" />
               <p className="text-sm font-medium text-center">캐시내역</p>
