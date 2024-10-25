@@ -16,7 +16,7 @@ type RewardPriceComparison = "유" | "무";
 interface FormData {
   advertiserId: string;
   rewardStatus: RewardStatus;
-  productURL: string;
+  productUrl: string;
   keyword: string;
   advertiserChannel: string;
   rewardProductPrice: number | string; // 초기에는 빈 값일 수 있음
@@ -43,7 +43,7 @@ export default function Component() {
   const [formData, setFormData] = useState<FormData>({
     advertiserId: "",
     rewardStatus: "생성" as RewardStatus,
-    productURL: "",
+    productUrl: "",
     keyword: "",
     advertiserChannel: "",
     rewardProductPrice: "",
@@ -122,7 +122,7 @@ export default function Component() {
 
     // 필수 입력 항목 체크
     const requiredFields = [
-      { field: formData.productURL, fieldName: "상품 URL" },
+      { field: formData.productUrl, fieldName: "상품 URL" },
       { field: formData.advertiserId, fieldName: "광고주 ID" },
       { field: formData.rewardStatus, fieldName: "리워드 생성 여부" },
       { field: formData.keyword, fieldName: "키워드" },
@@ -174,19 +174,19 @@ export default function Component() {
               <CardBody>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="col-span-1 md:col-span-2">
-                    <label htmlFor="productURL" className="text-sm font-medium">
+                    <label htmlFor="productUrl" className="text-sm font-medium">
                       상품URL<span className="text-red-500">*</span>
                     </label>
                     <div className="flex mt-1">
                       <Input
-                        id="productURL"
+                        id="productUrl"
                         placeholder="https://www.example.com/product/123"
                         className="flex-grow"
-                        value={formData.productURL}
+                        value={formData.productUrl}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
-                            productURL: e.target.value,
+                            productUrl: e.target.value,
                           })
                         }
                       />
@@ -490,9 +490,9 @@ export default function Component() {
               <CardBody>
                 <h2 className="mb-2 font-semibold">셋팅 방법</h2>
                 <ol className="space-y-1 text-sm list-decimal list-inside">
-                  <li>상품 URL 입력 (Product, Product / Vendor)</li>
+                  <li>상품 URL 입력 (상품명, ProductID / optionID)</li>
                   <li>조회 버튼 클릭</li>
-                  <li>카테고리 - 직접 입력 또는 카테고리 변경해주세요.</li>
+                  <li>날짜는 시작날짜, 종료날짜 포함 10일, 30일만 가능합니다.</li>
                 </ol>
               </CardBody>
             </Card>

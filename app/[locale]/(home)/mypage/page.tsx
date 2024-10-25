@@ -26,7 +26,7 @@ export default function MyPage() {
       // localStorage.removeItem("successMessage");
       // clearUserInfo(); 
       clearUserInfo(); 
-      router.push(`/${locale}/login`);
+      router.push('/');
     }catch(error: any){
         if (error.response && error.response.data && error.response.data.message) {
           setError(error.response.data.message);

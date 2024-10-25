@@ -2,16 +2,23 @@
 <br>
 <br>
 
-<div align="center"><h1>👋 Full-stack 1인 프로젝트 Reward 소개</h1></div>
-<div align="center"><p>온라인 쇼핑몰 판매자가 자신의 쇼핑몰을 알리기 위해 상품과 관련된 미션을 올리면 사람들은 미션을 수행하고서 포인트를 획득합니다. <br> 온라인 쇼핑몰 판매자는 자신의 상품을 알려서 좋고, 미션 수행하는 사람들은 포인트 얻을 수 있어 좋은 서로 윈윈하는 사이트를 만들고자 했습니다. </p></div>
-<br><br>
+<div align="center"><h1>👋 Full-stack 1인 프로젝트 Reward</h1></div>
+<div align="left"><p>
+○ 소개
+<br>온라인 쇼핑몰 판매자가 자신의 쇼핑몰을 알리기 위해 상품과 관련된 미션을 올리면 사람들은 미션을 수행하고서 포인트를 획득합니다. <br> 온라인 쇼핑몰 판매자는 자신의 상품을 알려서 좋고, 미션 수행하는 사람들은 포인트 얻을 수 있어 좋은 서로 윈윈하는 플랫폼을 만들고자 했습니다. </p></div>
+<br>
+<div align="left"><p>○ 설명
+<br>
+리워드 플랫폼은 도메인 주도 설계를 위해 패키지 구조를 Command와 Query로 분리하였습니다.<br> JPA는 주로 Command 영역에서 활용했으며, Query 영역에서는 복잡한 쿼리 작성이 필요할 때 JPA의 한계를 극복하기 위해 MyBatis를 함께 사용하였습니다.<br> 또한, 인증과 권한 관리를 위해 Spring Security를 도입했으며, 세션 방식과 JWT 방식 중 고민하다가 PWA와 모바일 환경에 적합한 인증 방식인 JWT를 선택하여 유저 인증 및 권한을 관리하고 있습니다.<br>
+프론트엔드에서는, 상태 관리를 위해 Redux 대신 간단하고 효율적인 Zustand를 채택하여, Axios로 서버에서 받아온 유저 데이터를 관리했습니다.</p></div>
+<br><br><br>
 <div align="center"><h2>🔻Back-end Repository</h2></div>
 <div align="center">
   <a href="https://github.com/YOUNTAEHEE/reward-backend">⚙️ <strong>Back-end Repository</strong></a>
 </div>
 <br>
 <br>
-<br>
+
 <div align="center"><h1>💻 STACKS</h1></div>
 <div align="center"><strong>IDE</strong>
 <br><br>
@@ -45,23 +52,48 @@
   ○ DataBase
   <br>  <br>
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"/>
-<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"/>
+<br><br>
+  ○ Deployment & Infrastructure
+  <br><br><img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"/>
 <br><br>
   ○ Security / Authentication & Authorization
-  <br>  <br>
+  <br><br>
 <img src="https://img.shields.io/badge/spring security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"/>
 <img src="https://img.shields.io/badge/json web tokens-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white"/>
 </div>
 <br><br><br>
 <div align="center"><h1>🔎 System Architecture</h1></div>
-<img src="images/architecture.jpg">
+<div align="center"><img src="images/architecture.jpg"></div>
 <br><br>
-<div align="center"><h1>📌 Site Feature</h1></div>
-<div align="left"><p>▶사용자/ 리워드 등록자 페이지 구분
+<div align="center"><h1>📌 플랫폼 특징</h1></div>
+<div align="left"><p>▶일반 사용자/ 리워드 등록자 페이지 구분
 <br> ▶리워드 등록자의 미션 등록 페이지(미션 등록시 포인트 차감)
-<br> ▶사용자가 미션하는 페이지
+<br> ▶일반 사용자가 미션하는 페이지
 (미션 성공에 따라 포인트 지급)
 <br> ▶포인트 출금/입금 내역 보는 페이지
 </p></div>
-
+<br><br><br>
+<div align="center"><h1>✨ 플랫폼 화면 구성</h1></div>
+<div align="center"><img src="images/signin.png"></div>
+<div align="center"><p>회원가입 페이지</p></div><br>
+<div align="center"><img src="images/signin_email.jpg"></div>
+<div align="center"><p>회원가입 페이지에서 메일 인증 누르면 메일로 인증번호 도착, 인증번호를 써넣고 인증확인 누르면 인증 성공 여부 알림창 뜸</p></div>
+<br><br><br>
+<div align="center"><img src="images/home.png"></div>
+<div align="center"><p>일반 사용자 로그인시 첫 화면</p></div>
+<br><br><br>
+<div align="center"><img src="images/missions.png"></div>
+<div align="center"><p>미션 리스트 페이지(일반 사용자)<br>
+날짜 지나서 종료된 미션은 보이지 않음<br> 미션 성공한 인원이 리워드 등록자가 설정한 인원에 도달하면 미션이 종료되어 노출되지 않음
+</p></div>
+<br><br><br>
+<div align="center"><img src="images/reward-write.png"></div>
+<div align="center"><p>미션 등록 페이지(리워드 등록자)<br>
+리워드 등록하면 포인트 차감<br> 포인트 부족하면 포인트 부족하다는 알림창 뜸
+</p></div>
+<br><br><br>
+<div align="center"><img src="images/mission.png"></div>
+<div align="center"><p>미션하기 페이지(일반 사용자)<br>미션 등록하기에 등록했던 상품명, 상품가격, 가격비교 여부, 스토어 이름, 페이지에 노출<br> 키워드는 키워드 복사하기 누르면 복사됨
+<br>미션 성공시 포인트 지급
+</p></div>
 

@@ -15,6 +15,7 @@ interface Mission{
   advertiserChannel:string;
   productName:string;
   rewardProductPrice:string;
+  priceComparison:string;
 }
 interface ComponentProps {
   params: {
@@ -105,7 +106,7 @@ export default function Component({ params } : ComponentProps) {
             <ol className="space-y-2 text-sm list-decimal list-inside">
               <li>키워드 복사 붙여넣기</li>
               <li>미션 시작</li>
-              <li>가격비교 여부</li>
+              <li>가격비교 여부 : {mission.priceComparison}</li>
               <li>상품명 : {mission.productName}</li>
               <li>판매처 : {mission.advertiserChannel}</li>
               <li>가격 : {mission.rewardProductPrice}</li>

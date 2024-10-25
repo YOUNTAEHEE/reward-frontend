@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
      },  // 한국어 키 사용
     { icon: Wallet, label: t("적립"),onClick: ()=> router.push(`/${locale}/withdrawal-request`)  },
     // { icon: ShoppingBag, label: t("스토어") },
-    { icon: FileSpreadsheet, label: t("캐시내역"),
+    { icon: FileSpreadsheet, label: t("포인트 내역"),
       onClick: ()=> router.push(`/${locale}/cash-history`) 
      },
     { icon: User, label: t("마이페이지"), onClick: ()=> router.push(`/${locale}/mypage`) },

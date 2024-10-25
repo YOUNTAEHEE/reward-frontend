@@ -109,7 +109,7 @@ export default function HomeScreen() {
             onPress={() => router.push(`/${locale}/cash-history`)}>
             <CardBody className="flex flex-col items-center justify-center p-4">
               <FileSpreadsheet className="w-8 h-8 mb-2 text-green-500" />
-              <p className="text-sm font-medium text-center">캐시내역</p>
+              <p className="text-sm font-medium text-center">포인트 내역</p>
             </CardBody>
           </Card>
           <Card className="bg-white shadow-sm">
