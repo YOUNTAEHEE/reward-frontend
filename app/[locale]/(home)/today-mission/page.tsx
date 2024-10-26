@@ -100,7 +100,7 @@ export default function Component() {
         <h1 className="text-xl font-bold">미션하기</h1>
       </header>
 
-      <main className="flex-grow p-4 pb-16 space-y-4">
+      <main className="flex-1 p-4 pb-16 space-y-4">
         {mission ? (
           <>
         <Card>

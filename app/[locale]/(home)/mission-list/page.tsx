@@ -9,7 +9,7 @@ import useLocaleStore from "@store/useLocaleStore";
 
 
 
-export default function SmartScreen() {
+export default function Component() {
   const router = useRouter();
   const { locale, toggleLocale } = useLocaleStore();
 

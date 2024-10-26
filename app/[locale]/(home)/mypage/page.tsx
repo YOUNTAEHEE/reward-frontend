@@ -4,7 +4,7 @@ import { Button } from "@nextui-org/button";
 import { Switch } from "@nextui-org/switch";
 import { Card, CardBody } from "@nextui-org/card";
 import { useTranslations } from 'next-intl';
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import React from "react";
 import apiClient from "@handler/fetch/client";
 import { useRouter } from "next/navigation";
@@ -17,6 +17,21 @@ export default function MyPage() {
   const router = useRouter();
   const { locale, toggleLocale } = useLocaleStore();
   const clearUserInfo = useUserStore((state) => state.clearUserInfo);
+  const [point, setPoint] = useState<number | string>();
+  const [userNickname, setUserNickname] = useState<string>();
+  const userId = useUserStore((state) => state.userInfo?.userId);
+  
+  const fetchUserInfo = async()=> {
+    console.log("Sending userId:", userId);
+    try{
+      const response = await apiClient.post(`/my/point`,{userId});
+      setPoint(response.data.userPoint);
+      setUserNickname(response.data.userNickname);
+    }catch (error){
+      setPoint('포인트를 불러올 수 없음');
+      setUserNickname('닉네임을 불러올 수 없음');
+    }
+  }
   
   const handleLogout = async() =>{
     setError(null);
@@ -35,6 +50,10 @@ export default function MyPage() {
         }
       }
   };
+
+  useEffect(()=>{
+    fetchUserInfo();
+  },[])
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <header className="sticky top-0 z-10 p-4 bg-white shadow-sm">
@@ -47,20 +66,21 @@ export default function MyPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">{t('닉네임')}</p>
-                <p className="text-lg font-bold">xxxx</p>
+                <p className="text-lg font-bold">{userNickname}</p>
               </div>
-              <Button className="text-white bg-green-500 hover:bg-green-600">
-                {t('적립내역')}
+              <Button className="text-white bg-green-500 hover:bg-green-600"
+                        onClick={() => router.push(`/${locale}/cash-history`)}>
+                {t('포인트 내역')}
               </Button>
             </div>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">{t('보유_캐시')}</p>
-              <p className="text-2xl font-bold">85 {t('캐시')}</p> 
+              <p className="text-sm text-gray-500">{t('보유_포인트')}</p>
+              <p className="text-2xl font-bold">{point} {t('포인트')}</p> 
             </div>
           </CardBody>
         </Card>
 
-        <Card>
+        {/* <Card>
           <CardBody className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -72,17 +92,17 @@ export default function MyPage() {
               </Button>
             </div>
           </CardBody>
-        </Card>
+        </Card> */}
 
         <Card>
           <CardBody className="p-4 space-y-4">
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Bell className="w-5 h-5 text-gray-500" />
                 <span>{t('푸시알림')}</span>
               </div>
               <Switch />
-            </div>
+            </div> */}
             {[
               { icon: User, label: t('내정보수정') },
               { icon: FileText, label: t('공지사항') },
