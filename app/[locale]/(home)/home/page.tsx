@@ -61,8 +61,9 @@ export default function HomeScreen() {
                 <p className="text-sm text-gray-500">{userNickname}</p>
                 <p className="text-2xl font-bold">{point}p</p>
               </div>
-              <Button className="text-white bg-green-500 hover:bg-green-600">
-                적립금내역
+              <Button className="text-white bg-green-500 hover:bg-green-600"
+              onClick={() => router.push(`/${locale}/cash-history`)}>
+                포인트 내역
               </Button>
             </div>
           </CardBody>
@@ -112,7 +113,9 @@ export default function HomeScreen() {
               <p className="text-sm font-medium text-center">포인트 내역</p>
             </CardBody>
           </Card>
-          <Card className="bg-white shadow-sm">
+          <Card className="bg-white shadow-sm" 
+          isPressable
+           onPress={() => router.push(`/${locale}/mypage`)}>
             <CardBody className="flex flex-col items-center justify-center p-4">
               <User className="w-8 h-8 mb-2 text-green-500" />
               <p className="text-sm font-medium text-center">마이페이지</p>

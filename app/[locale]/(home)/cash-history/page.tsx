@@ -27,11 +27,31 @@ export default function CashHistory() {
     console.log("Sending userId:", userId);
     try{
       const response = await apiClient.post(`/my/point/detail`,{userId});
-      const fetchedTransactions = response.data;
-      
-      const withdrawDetail = fetchedTransactions.filter((transaction: any) => transaction.pointAction === 'POINT_WITHDRAW');
-      const depositDetail = fetchedTransactions.filter((transaction: any) => transaction.pointAction === 'POINT_DEPOSIT');
+      console.log("Response data:", response.data);
+      const fetchedTransactions = response.data.map((transaction) => {
 
+        const formattedDate = new Date(transaction.pointDate)
+        .toLocaleString("ko-KR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+        .replace(/\./g, '.') // "."과 공백을 "."로 대체하여 공백을 제거
+        .replace(/(\d{4})-(\d{2})-(\d{2})/, '$1-$2-$3'); // "YYYY-MM-DD" 형식 적용
+      
+        return {
+          title: transaction.pointAction === 'POINT_WITHDRAW' ? '출금' : '적립',
+          date: formattedDate,
+          amount: transaction.pointDelta,
+        };
+      });
+  
+      const withdrawDetail = fetchedTransactions.filter((data) => data.title === '출금');
+      const depositDetail = fetchedTransactions.filter((data) => data.title === '적립');
+      
       setTransactions({
         출금내역: withdrawDetail || [],
         적립내역: depositDetail || [],
@@ -42,6 +62,7 @@ export default function CashHistory() {
   }
   
   useEffect(()=>{
+    console.log("User ID:", userId);
     fetchPointDetail();
   },[])
 
@@ -56,7 +77,7 @@ export default function CashHistory() {
                 <p className="text-xs text-gray-500">{transaction.date}</p>
               </div>
               <p className={`font-bold ${transaction.amount > 0 ? 'text-green-500' : 'text-red-500'}`}>
-                {transaction.amount > 0 ? '+' : ''}{transaction.amount} {t("캐시")}
+                {transaction.amount > 0 ? '+' : ''}{transaction.amount} {t("포인트")}
               </p>
             </div>
           </CardBody>
@@ -69,7 +90,7 @@ export default function CashHistory() {
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* 헤더 */}
       <header className="sticky top-0 z-10 p-4 bg-white shadow-sm">
-        <h1 className="text-lg font-bold">{t("캐시내역")}</h1>
+        <h1 className="text-lg font-bold">{t("포인트 내역")}</h1>
       </header>
 
       {/* 메인 컨텐츠 */}

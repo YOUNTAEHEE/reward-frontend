@@ -126,7 +126,7 @@ export default function Component() {
       { field: formData.advertiserId, fieldName: "광고주 ID" },
       { field: formData.rewardStatus, fieldName: "리워드 생성 여부" },
       { field: formData.keyword, fieldName: "키워드" },
-      { field: formData.advertiserChannel, fieldName: "스토어 이름" },
+      { field: formData.advertiserChannel, fieldName: "판매처" },
       { field: formData.rewardProductPrice, fieldName: "상품 가격" },
       { field: formData.productId, fieldName: "상품 ID" },
       { field: formData.productName, fieldName: "상품명" },
@@ -254,11 +254,11 @@ export default function Component() {
                       htmlFor="advertiserChannel"
                       className="text-sm font-medium"
                     >
-                      스토어 이름<span className="text-red-500">*</span>
+                      판매처<span className="text-red-500">*</span>
                     </label>
                     <Input
                       id="advertiserChannel"
-                      placeholder="스토어 이름 입력"
+                      placeholder="판매처 입력"
                       className="mt-1"
                       value={formData.advertiserChannel}
                       onChange={(e) =>

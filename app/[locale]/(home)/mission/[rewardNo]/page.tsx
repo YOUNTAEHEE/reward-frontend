@@ -130,7 +130,8 @@ export default function Component({ params } : ComponentProps) {
                 <Button type="submit" className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600">
                   정답제출
                 </Button>
-                <Button className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600">
+                <Button className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600"
+                 onClick={() => window.open('https://shopping.naver.com/home', '_blank')}>
                   미션시작
                 </Button>
               </div>
@@ -158,7 +159,8 @@ export default function Component({ params } : ComponentProps) {
           <Button type="submit" className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600">
             정답제출
           </Button>
-          <Button className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600">
+          <Button className="w-full py-3 text-lg font-bold text-white bg-green-500 hover:bg-green-600" 
+          onClick={() => window.open('https://shopping.naver.com/home', '_blank')}>
             미션시작
           </Button>
         </div>

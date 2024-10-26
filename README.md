@@ -3,6 +3,8 @@
 <br>
 
 <div align="center"><h1>👋 Full-stack 1인 프로젝트 Reward</h1></div>
+<div align="left"><p>○ 개발 기간
+<br>2024-10-01 ~ 진행 중</p></div><br>
 <div align="left"><p>
 ○ 소개
 <br>온라인 쇼핑몰 판매자가 자신의 쇼핑몰을 알리기 위해 상품과 관련된 미션을 올리면 사람들은 미션을 수행하고서 포인트를 획득합니다. <br> 온라인 쇼핑몰 판매자는 자신의 상품을 알려서 좋고, 미션 수행하는 사람들은 포인트 얻을 수 있어 좋은 서로 윈윈하는 플랫폼을 만들고자 했습니다. </p></div>
@@ -77,7 +79,7 @@
 <div align="center"><img src="images/signin.png"></div>
 <div align="center"><p>회원가입 페이지</p></div><br>
 <div align="center"><img src="images/signin_email.jpg"></div>
-<div align="center"><p>회원가입 페이지에서 메일 인증 누르면 메일로 인증번호 도착, 인증번호를 써넣고 인증확인 누르면 인증 성공 여부 알림창 뜸</p></div>
+<div align="center"><p>회원가입 페이지에서 메일 인증 누르면 메일로 인증번호 도착<br> 인증번호를 써넣고 인증확인 누르면 인증 성공 여부 알림창 뜸</p></div>
 <br><br><br>
 <div align="center"><img src="images/home.png"></div>
 <div align="center"><p>일반 사용자 로그인시 첫 화면</p></div>
@@ -93,7 +95,7 @@
 </p></div>
 <br><br><br>
 <div align="center"><img src="images/mission.png"></div>
-<div align="center"><p>미션하기 페이지(일반 사용자)<br>미션 등록하기에 등록했던 상품명, 상품가격, 가격비교 여부, 스토어 이름, 페이지에 노출<br> 키워드는 키워드 복사하기 누르면 복사됨
+<div align="center"><p>미션하기 페이지(일반 사용자)<br>미션 등록하기에 등록했던 상품명, 상품가격, 가격비교 여부, 스토어 이름이 페이지에 노출<br> 키워드는 키워드 복사하기 누르면 복사됨
 <br>미션 성공시 포인트 지급
 </p></div>
 
