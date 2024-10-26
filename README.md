@@ -14,7 +14,7 @@
 
 <strong>[Back-end]</strong>
 <br>
-▶단순한 쿼리 조회는 JPA, 복잡 쿼리는 Mybatis를 사용.<br> ▶인증과 권한 관리를 위해 Spring Security + JWT를 도입.<br>▶ 세션 방식과 JWT 방식 중 PWA와 모바일 환경에 적합한 인증 방식인 JWT를 채택함.<br><br>
+▶단순한 쿼리 조회는 JPA, 복잡한 쿼리는 Mybatis를 사용.<br> ▶인증과 권한 관리를 위해 Spring Security + JWT를 도입.<br>▶세션 방식과 JWT 방식 중 PWA와 모바일 환경에 적합한 인증 방식인 JWT를 채택함.<br><br>
 <strong>[Front-end]</strong>
 <br>▶상태 관리를 위해 Redux 대신 간단하고 효율적인 Zustand를 채택, Axios로 서버에서 받아온 유저 데이터를 관리</p></div>
 <br><br><br>
