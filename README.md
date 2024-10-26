@@ -11,8 +11,12 @@
 <br>
 <div align="left"><p>○ 설명
 <br>
-리워드 플랫폼은 도메인 주도 설계를 위해 패키지 구조를 Command와 Query로 분리하였습니다.<br> JPA는 주로 Command 영역에서 활용했으며, Query 영역에서는 복잡한 쿼리 작성이 필요할 때 JPA의 한계를 극복하기 위해 MyBatis를 함께 사용하였습니다.<br> 또한, 인증과 권한 관리를 위해 Spring Security를 도입했으며, 세션 방식과 JWT 방식 중 고민하다가 PWA와 모바일 환경에 적합한 인증 방식인 JWT를 선택하여 유저 인증 및 권한을 관리하고 있습니다.<br>
-프론트엔드에서는, 상태 관리를 위해 Redux 대신 간단하고 효율적인 Zustand를 채택하여, Axios로 서버에서 받아온 유저 데이터를 관리했습니다.</p></div>
+
+<strong>[Back-end]</strong>
+<br>
+▶단순한 쿼리 조회는 JPA, 복잡 쿼리는 Mybatis를 사용.<br> ▶인증과 권한 관리를 위해 Spring Security + JWT를 도입.<br>▶ 세션 방식과 JWT 방식 중 PWA와 모바일 환경에 적합한 인증 방식인 JWT를 채택함.<br><br>
+<strong>[Front-end]</strong>
+<br>▶상태 관리를 위해 Redux 대신 간단하고 효율적인 Zustand를 채택, Axios로 서버에서 받아온 유저 데이터를 관리</p></div>
 <br><br><br>
 <div align="center"><h2>🔻Back-end Repository</h2></div>
 <div align="center">
@@ -68,11 +72,11 @@
 <div align="center"><img src="images/architecture.jpg"></div>
 <br><br>
 <div align="center"><h1>📌 플랫폼 특징</h1></div>
-<div align="left"><p>▶일반 사용자/ 리워드 등록자 페이지 구분
-<br> ▶리워드 등록자의 미션 등록 페이지(미션 등록시 포인트 차감)
-<br> ▶일반 사용자가 미션하는 페이지
-(미션 성공에 따라 포인트 지급)
-<br> ▶포인트 출금/입금 내역 보는 페이지
+<div align="left"><p>▶일반 사용자/ 리워드 등록자로 구분해서 볼 수 있는 페이지 다르게 구현
+<br>▶포인트
+<br>-리워드 등록자의 미션 등록시 포인트 차감
+<br>-일반 사용자가 미션 성공하면 포인트 지급
+<br>-포인트 적립 또는 출금시 포인트 내역 테이블에 기록됨과 동시에 유저 테이블의 총 포인트 칼럼에 기록
 </p></div>
 <br><br><br>
 <div align="center"><h1>✨ 플랫폼 화면 구성</h1></div>
