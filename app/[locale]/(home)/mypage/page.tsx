@@ -104,7 +104,7 @@ export default function MyPage() {
               <Switch />
             </div> */}
             {[
-              { icon: User, label: t('내정보수정') },
+              { icon: User, label: t('내정보수정'), onClick: () => router.push(`/${locale}/profile-edit`) },
               { icon: FileText, label: t('공지사항') },
               { icon: Users, label: t('제휴광고') },
               { icon: HelpCircle, label: t('문의하기') },
