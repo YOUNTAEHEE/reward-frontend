@@ -74,16 +74,18 @@
 <div align="center"><h1>📌 플랫폼 특징</h1></div>
 <div align="left"><p>
 <br>▶일반 사용자/ 리워드 등록자로 구분해서 볼 수 있는 페이지 다르게 구현
-<br>▶회원가입시 메일 확인 인증코드 이메일로 받아서 인증할 수 있게 구현
+<br>▶회원가입시 이메일 주소 확인 인증 코드 받아서 인증할 수 있게 구현
+<br>▶회원정보 수정
 <br>▶포인트
 <br>-리워드 등록자의 미션 등록시 포인트 차감
 <br>-일반 사용자가 미션 성공하면 포인트 지급
+<br>-포인트 적립, 출금 내역 확인 가능
 <br>-포인트 적립 또는 출금시 포인트 내역 테이블에 기록됨과 동시에 유저 테이블의 총 포인트 칼럼에 기록
 </p></div>
 <br><br><br>
 <div align="center"><h1>✨ 플랫폼 화면 구성</h1></div>
 <br>
-<div align="center"><img src="images/mobile_demo.gif" width="230"></div>
+<div align="center"><img src="images/mobile_demo.gif" width="240"></div>
 <br><br><br>
 <div align="center"><img src="images/signin.png"></div>
 <div align="center"><p>회원가입 페이지</p></div><br>
@@ -110,5 +112,7 @@
 <br><br><br>
 <div align="center"><img src="images/profile_edit.png"></div>
 <div align="center"><p>회원정보 수정<br>
+비밀번호/닉네임/핸드폰번호/예금주,은행,계좌번호 수정 가능
+<br>비밀번호, 은행 필드의 경우 각 필드의 변경 버튼 눌러서 수정시 <br>필드 안의 입력란이 하나라도 비어있을 경우 <br>수정을 할 수 없게 설정 
 </p></div>
 
