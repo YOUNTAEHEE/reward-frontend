@@ -19,10 +19,12 @@ import { useRouter } from "next/navigation";
 import apiClient from "@handler/fetch/client";
 import useUserStore from "@store/useUserStore";
 
+
 export default function HomeScreen() {
   const t = useTranslations(); // 국제화 훅 사용
   const router = useRouter();
   const { locale, toggleLocale } = useLocaleStore();
+  // const [loadData, setLoadData] = useState<boolean>(false);
   const [point, setPoint] = useState<number | string>();
   const [userNickname, setUserNickname] = useState<string>();
   const userId = useUserStore((state) => state.userInfo?.userId);
@@ -31,9 +33,11 @@ export default function HomeScreen() {
     console.log("Sending userId:", userId);
     try{
       const response = await apiClient.post(`/my/point`,{userId});
+      // setLoadData(true);
       setPoint(response.data.userPoint);
       setUserNickname(response.data.userNickname);
     }catch (error){
+      // setLoadData(false);
       setPoint('포인트를 불러올 수 없음');
       setUserNickname('닉네임을 불러올 수 없음');
     }
@@ -41,14 +45,20 @@ export default function HomeScreen() {
   
   useEffect(()=>{
     fetchUserInfo();
+    // setLoadData(false);
   },[])
+
+  // useEffect(()=>{
+  //   fetchUserInfo();
+  //   setLoadData(false);
+  // },[loadData])
   
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* 헤더 */}
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-white shadow-sm">
         <h1 className="text-xl font-bold">리워드</h1>
-        <Bell className="w-6 h-6 text-gray-600" />
+        {/* <Bell className="w-6 h-6 text-gray-600" /> */}
       </header>
 
       {/* 메인 콘텐츠 */}

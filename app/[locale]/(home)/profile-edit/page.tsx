@@ -111,8 +111,13 @@ export default function Component() {
     } else {
       // 완료 버튼 클릭 시
       if (formData.userPassword !== "" && confirmPassword !== "") {
-        // 두 필드 모두 입력되었을 때
-        setPasswordGroupEditing(false);
+        if (formData.userPassword === confirmPassword) {
+          // 비밀번호와 비밀번호 확인이 일치할 때
+          setPasswordGroupEditing(false);
+        } else {
+          // 비밀번호와 비밀번호 확인이 일치하지 않을 때
+          alert("비밀번호가 일치하지 않습니다.");
+        }
       } else {
         alert("비밀번호와 비밀번호 확인을 모두 입력해주세요.");
       }
@@ -389,7 +394,7 @@ export default function Component() {
           </div>
         </div>
 
-        <div className="flex justify-end mt-6">
+        <div className="flex justify-end mt-6 mb-16">
           <Button type="submit" className="bg-green-500" variant="solid">
             수정
           </Button>

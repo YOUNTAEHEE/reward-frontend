@@ -62,7 +62,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <footer className="fixed bottom-0 w-full border-t md:hidden">
         <div className="flex justify-around py-2 bg-white">
           {menuItems.map((item, index) => (
-            <div key={index} className="flex flex-col items-center">
+            <div key={index} className="flex flex-col items-center"
+             role="button"
+            onClick={item.onClick}>
               <item.icon className="w-6 h-6" />
               <span className="text-xs">{item.label}</span>
             </div>

@@ -72,7 +72,9 @@
 <div align="center"><img src="images/architecture.jpg"></div>
 <br><br>
 <div align="center"><h1>📌 플랫폼 특징</h1></div>
-<div align="left"><p>▶일반 사용자/ 리워드 등록자로 구분해서 볼 수 있는 페이지 다르게 구현
+<div align="left"><p>
+<br>▶일반 사용자/ 리워드 등록자로 구분해서 볼 수 있는 페이지 다르게 구현
+<br>▶회원가입시 메일 확인 인증코드 이메일로 받아서 인증할 수 있게 구현
 <br>▶포인트
 <br>-리워드 등록자의 미션 등록시 포인트 차감
 <br>-일반 사용자가 미션 성공하면 포인트 지급
@@ -80,6 +82,9 @@
 </p></div>
 <br><br><br>
 <div align="center"><h1>✨ 플랫폼 화면 구성</h1></div>
+<br>
+<div align="center"><img src="images/mobile_demo.gif" width="230"></div>
+<br><br><br>
 <div align="center"><img src="images/signin.png"></div>
 <div align="center"><p>회원가입 페이지</p></div><br>
 <div align="center"><img src="images/signin_email.jpg"></div>
@@ -95,11 +100,15 @@
 <br><br><br>
 <div align="center"><img src="images/reward-write.png"></div>
 <div align="center"><p>미션 등록 페이지(리워드 등록자)<br>
-리워드 등록하면 포인트 차감<br> 포인트 부족하면 포인트 부족하다는 알림창 뜸
+리워드 등록하면 포인트 차감<br> 포인트 부족하면 리워드 등록이 안됨
 </p></div>
 <br><br><br>
 <div align="center"><img src="images/mission.png"></div>
 <div align="center"><p>미션하기 페이지(일반 사용자)<br>미션 등록하기에 등록했던 상품명, 상품가격, 가격비교 여부, 스토어 이름이 페이지에 노출<br> 키워드는 키워드 복사하기 누르면 복사됨
 <br>미션 성공시 포인트 지급
+</p></div>
+<br><br><br>
+<div align="center"><img src="images/profile_edit.png"></div>
+<div align="center"><p>회원정보 수정<br>
 </p></div>
 
