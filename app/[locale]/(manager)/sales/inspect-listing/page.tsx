@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useState , useEffect } from "react";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import {
@@ -32,8 +32,32 @@ import { useAsyncList } from "@react-stately/data";
 import { useRouter } from "next/navigation";
 import useLocaleStore from "@store/useLocaleStore";
 import apiClient from "@handler/fetch/client";
+import useUserStore from "@store/useUserStore";
 
+type RewardStatus = "생성" | "비활성화";
+type RewardInflowCount = 100 | 200;
+type RewardPriceComparison = "유" | "무";
+interface RewardList {
+  rewardId: string;
+  advertiserId: string;
+  rewardStatus: RewardStatus;
+  productUrl: string;
+  keyword: string;
+  advertiserChannel: string;
+  rewardProductPrice: number | string; // 초기에는 빈 값일 수 있음
+  rewardPoint: number | string; // 초기에는 빈 값일 수 있음
+  productId: string;
+  optionId: string;
+  productName: string;
+  priceComparison: string;
+  rewardStartDate: string;
+  rewardEndDate: string;
+  inflowCount: number | string; // 초기에는 빈 값일 수 있음
+  actualInflowCount:number | string;
+  rewardMemo: string;
+}
 export default function InspectorScreen() {
+  const [salesRewards, setSalesRewards] = useState<RewardList[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set<number>()); // 선택된 항목을 관리하는 상태
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 상태를 관리하는 상태
@@ -57,7 +81,7 @@ export default function InspectorScreen() {
     if (selectAll) {
       setSelectedKeys(new Set()); // 전체 해제
     } else {
-      setSelectedKeys(new Set(rewards.map((reward) => reward.id))); // 전체 선택
+      setSelectedKeys(new Set(salesRewards.map((reward) => Number(reward.rewardId)))); // 전체 선택
     }
     setSelectAll(!selectAll); // selectAll 상태를 토글
   };
@@ -71,85 +95,35 @@ export default function InspectorScreen() {
     }
 
     setSelectedKeys(updatedSelectedKeys);
-    setSelectAll(updatedSelectedKeys.size === rewards.length); // 전체 선택 여부 업데이트
+    setSelectAll(updatedSelectedKeys.size === salesRewards.length); // 전체 선택 여부 업데이트
   };
 
-  const rewards = [
-    {
-      id: 20001,
-      user: "KKY",
-      status: "생성",
-      keyword: "수건",
-      admin: "코트리빙",
-      price: 4090,
-      code: "2102111",
-      startDate: "2409181230",
-      endDate: "2409281230",
-      inflow: 100,
-      actualInflow: 89,
-    },
-    {
-      id: 20002,
-      user: "KKY",
-      status: "생성",
-      keyword: "타올",
-      admin: "코트리빙",
-      price: 4190,
-      code: "2102112",
-      startDate: "2409181230",
-      endDate: "2409281230",
-      inflow: 100,
-      actualInflow: 89,
-    },
-    {
-      id: 20003,
-      user: "KKY",
-      status: "비활성",
-      keyword: "베개",
-      admin: "코트리빙",
-      price: 4290,
-      code: "2102113",
-      startDate: "2409181230",
-      endDate: "2409281230",
-      inflow: 100,
-      actualInflow: 89,
-    },
-    {
-      id: 20004,
-      user: "KKY",
-      status: "생성",
-      keyword: "수건2",
-      admin: "코트리빙",
-      price: 4090,
-      code: "2102114",
-      startDate: "2409181230",
-      endDate: "2409281230",
-      inflow: 100,
-      actualInflow: 89,
-    },
-    {
-      id: 20005,
-      user: "KKY",
-      status: "생성",
-      keyword: "타올2",
-      admin: "코트리빙",
-      price: 4190,
-      code: "2102115",
-      startDate: "2409181230",
-      endDate: "2409281230",
-      inflow: 100,
-      actualInflow: 89,
-    },
-  ];
+  const { userInfo } = useUserStore();
+  const userName = userInfo?.userName || "";
+  const userId = userInfo?.userId || "";
+  
+  const fetchSalesRewards = async()=> {
+    try{
+      const response = await apiClient.post('/reward/sales/list', {userId});
+      const salesRewardsData = Array.isArray(response.data) ? response.data : [];
+      setSalesRewards(salesRewardsData); 
+    }catch (error){
+      setSalesRewards([]); 
+    }
+  }
+  
+  useEffect(()=>{
+    fetchSalesRewards();
+  },[])
 
   return (
     <>
       <div className="container p-4 mx-auto">
         <header className="flex items-center mb-12">
           <Button isIconOnly variant="light" className="mr-2">
-            <ArrowLeft className="w-6 h-6" />
+            <ArrowLeft className="w-6 h-6" onClick={() => router.push(`/${locale}/sales/login`)}/>
           </Button>
-          <h1 className="text-2xl font-bold">리워드 관리 : 박기환</h1>
+          <h1 className="text-2xl font-bold">리워드 관리 : {userName}</h1>
         </header>
         {/* <div className="relative flex items-center w-full mb-6 md:w-full ">
           <Input
@@ -229,42 +203,54 @@ export default function InspectorScreen() {
                     />
                   </TableColumn>
                   <TableColumn>No</TableColumn>
-                  <TableColumn>사용자</TableColumn>
-                  <TableColumn>리워드 ID</TableColumn>
-                  <TableColumn>생성여부</TableColumn>
-                  <TableColumn>키워드</TableColumn>
+                  <TableColumn>사용자ID</TableColumn>
+                  <TableColumn>리워드ID</TableColumn>
                   <TableColumn>관리자</TableColumn>
-                  <TableColumn>단가</TableColumn>
-                  <TableColumn>상품 코드</TableColumn>
-                  <TableColumn>슬롯 시작일시</TableColumn>
-                  <TableColumn>슬롯 종료일시</TableColumn>
+                  <TableColumn>생성여부</TableColumn>
+                  <TableColumn>상품URL</TableColumn>
+                  <TableColumn>키워드</TableColumn>
+                  <TableColumn>판매처</TableColumn>
+                  <TableColumn>상품가격</TableColumn>
+                  <TableColumn>리워드 포인트</TableColumn>
+                  <TableColumn>상품ID</TableColumn>
+                  <TableColumn>옵션ID</TableColumn>
+                  <TableColumn>상품명</TableColumn>
+                  <TableColumn>가격비교 여부</TableColumn>
+                  <TableColumn>리워드 시작일시</TableColumn>
+                  <TableColumn>리워드 종료일시</TableColumn>
                   <TableColumn>유입</TableColumn>
                   <TableColumn>실유입</TableColumn>
                   <TableColumn>메모</TableColumn>
                   <TableColumn>수정</TableColumn>
                 </TableHeader>
                 <TableBody>
-                  {rewards.map((reward, index) => (
-                    <TableRow key={reward.id}>
+                  {salesRewards.map((reward, index) => (
+                    <TableRow key={reward.rewardId}>
                       <TableCell>
                         <Checkbox
-                          isSelected={selectedKeys.has(reward.id)}
-                          onChange={() => handleSelectRow(reward.id)}
+                          isSelected={selectedKeys.has(Number(reward.rewardId))}
+                          onChange={() => handleSelectRow(Number(reward.rewardId))}
                         />
                       </TableCell>
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell>{reward.user}</TableCell>
-                      <TableCell>{reward.id}</TableCell>
-                      <TableCell>{reward.status}</TableCell>
+                      <TableCell>{reward.advertiserId}</TableCell>
+                      <TableCell>{reward.rewardId}</TableCell>
+                      <TableCell>{userName}</TableCell>
+                      <TableCell>{reward.rewardStatus}</TableCell>
+                      <TableCell>{reward.productUrl}</TableCell>
                       <TableCell>{reward.keyword}</TableCell>
-                      <TableCell>{reward.admin}</TableCell>
-                      <TableCell>{reward.price}</TableCell>
-                      <TableCell>{reward.code}</TableCell>
-                      <TableCell>{reward.startDate}</TableCell>
-                      <TableCell>{reward.endDate}</TableCell>
-                      <TableCell>{reward.inflow}</TableCell>
-                      <TableCell>{reward.actualInflow}</TableCell>
-                      <TableCell className="flex items-center">?</TableCell>
+                      <TableCell>{reward.advertiserChannel}</TableCell>
+                      <TableCell>{reward.rewardProductPrice}</TableCell>
+                      <TableCell>{reward.rewardPoint}</TableCell>
+                      <TableCell>{reward.productId}</TableCell>
+                      <TableCell>{reward.optionId}</TableCell>
+                      <TableCell>{reward.productName}</TableCell>
+                      <TableCell>{reward.priceComparison}</TableCell>
+                      <TableCell>{reward.rewardStartDate}</TableCell>
+                      <TableCell>{reward.rewardEndDate}</TableCell>
+                      <TableCell>{reward.inflowCount}</TableCell>
+                      <TableCell>{reward.actualInflowCount}</TableCell>
+                      <TableCell className="flex items-center">{reward.rewardMemo}</TableCell>
                       <TableCell>
                         <Button isIconOnly size="sm">
                           <Edit className="w-4 h-4" />

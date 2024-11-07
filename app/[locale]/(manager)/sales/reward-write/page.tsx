@@ -38,6 +38,7 @@ export default function Component() {
 
   const { userInfo } = useUserStore();
   const salesId = userInfo?.userId || "";  // 사용자의 ID를 가져옴
+  const userName = userInfo?.userName || "";
   
   // 모든 폼 필드를 하나의 객체로 관리
   const [formData, setFormData] = useState<FormData>({
@@ -162,9 +163,9 @@ export default function Component() {
     <div className="container p-4 mx-auto ">
       <header className="flex items-center mb-12">
         <Button isIconOnly variant="light" className="mr-2">
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className="w-6 h-6" onClick={() => router.push(`/${locale}/sales/inspect-listing`)}/>
         </Button>
-        <h1 className="text-2xl font-bold">리워드 관리</h1>
+        <h1 className="text-2xl font-bold">리워드 관리 : {userName}</h1>
       </header>
 
       <div className="flex flex-wrap items-center justify-center w-auto">

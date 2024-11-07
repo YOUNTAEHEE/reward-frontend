@@ -6,7 +6,7 @@ import { persist, devtools } from 'zustand/middleware';
 export interface UserInfo {
   // userNo?: number;
   userId?: string;
-  // userName?: string;
+  userName?: string;
   userNickname?: string;
   // userPhone?: number;
   // accountHolder?: string;

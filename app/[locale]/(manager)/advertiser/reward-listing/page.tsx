@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import {
@@ -19,15 +19,24 @@ import {
 import { Pagination } from "@nextui-org/pagination";
 import { ArrowLeft } from "lucide-react";
 import { rewardData } from "../../rewardData";
+import useUserStore from "@store/useUserStore";
+import apiClient from "@handler/fetch/client";
+import { useRouter } from "next/navigation";
+import useLocaleStore from "@store/useLocaleStore";
 
 export default function InspectorScreen() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set());
-
+  
   const filteredData = rewardData.filter((item) =>
     item.keyword.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const { userInfo } = useUserStore();
+  const userName = userInfo?.userName || "";
+  const router = useRouter();
+  const { locale, toggleLocale } = useLocaleStore();
+  
   return (
     <>
       {/* 헤더 */}
@@ -40,9 +49,9 @@ export default function InspectorScreen() {
       <div className="container p-4 mx-auto ">
         <header className="flex items-center mb-6">
           <Button isIconOnly variant="light" className="mr-2">
-            <ArrowLeft className="w-6 h-6" />
+            <ArrowLeft className="w-6 h-6" onClick={() => router.push(`/${locale}/advertiser/login`)}/>
           </Button>
-          <h1 className="text-2xl font-bold">리워드 관리 : 박기완</h1>
+          <h1 className="text-2xl font-bold">리워드 관리 : {userName}</h1>
         </header>
       </div>
       <div className="p-4 mx-auto max-w-7xl">
